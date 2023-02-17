@@ -114,4 +114,41 @@ public class HotelDomainTest
         Assert.Equal(luxeRoom, wellKnownHotel.Rooms[0]);
         Assert.Equal(secondClient, wellKnownHotel.Clients[1]);
     }
+
+    [Fact]
+    // Output information about all hotels in database as unit test
+    public void FirstRequestTest()
+    {
+        var hotelList = new List<HotelType>
+        {
+            new HotelType("Sleepy Place", "Voidburg", "Elea st. 1"),
+            new HotelType("Comfort Palace", "Voidburg", "Nocturne st. 2"),
+            new HotelType("Chillzone", "Voidburg", "Salzburg st. 3"),
+            new HotelType("Cheap'n'cool", "Voidburg", "Trauma st. 4"),
+            new HotelType("First class", "Nullvillage", "Toi st. 5")
+        };
+
+        var roomList = new List<RoomType>
+        {
+            new RoomType("Luxe", 5, 4500),
+            new RoomType("Default", 100, 1000),
+            new RoomType("Staff", 2, 0)
+        };
+
+        var clientList = new List<ClientType>
+        {
+            new ClientType("12 34 567890", "Charlie Scene", DateTime.MaxValue),
+            new ClientType("09 87 654321", "Dedova Mama Papovna", DateTime.MinValue)
+        };
+
+        hotelList[4].Rooms = roomList;
+        hotelList[4].Clients = clientList;
+
+        Assert.Equal("Sleepy Place", hotelList[0].Name);
+        Assert.Equal("Voidburg", hotelList[1].City);
+        Assert.Equal("Salzburg st. 3", hotelList[2].Address);
+        Assert.Empty(hotelList[3].Clients);
+        Assert.NotEmpty(hotelList[4].Rooms);
+        Assert.NotEmpty(hotelList[4].Clients);
+    }
 }
