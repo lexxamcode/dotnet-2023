@@ -169,4 +169,85 @@ public class HotelDomainTest
         Assert.Equal("09 87 654321", hotel.Clients[1].Passport);
         Assert.Equal(DateTime.MinValue, hotel.Clients[1].BirthDate);
     }
+
+    [Fact]
+    // Top-5 most booked hotels as unit test
+    public void ThirdRequestTest()
+    {
+        // List of test hotels
+        var hotelList = new List<HotelType>
+        {
+            new HotelType("Sleepy Place", "Voidburg", "Elea st. 1"),
+            new HotelType("Comfort Palace", "Voidburg", "Nocturne st. 2"),
+            new HotelType("Chillzone", "Voidburg", "Salzburg st. 3"),
+            new HotelType("Cheap'n'Cool", "Voidburg", "Trauma st. 4"),
+            new HotelType("First Class", "Nullvillage", "Toi st. 5")
+        };
+
+        // Test values representing 3 types of room available in each hotel;
+        var roomList = new List<RoomType>
+        {
+            new RoomType("Luxe", 5, 4500),
+            new RoomType("Default", 100, 1000),
+            new RoomType("Staff", 2, 0)
+        };
+
+        // Test values representing clients
+        var clientList = new List<ClientType>
+        {
+            new ClientType("12 34 567890", "Charlie Scene", DateTime.MaxValue),
+            new ClientType("09 87 654321", "Dedova Mama Papovna", DateTime.MinValue)
+        };
+
+        // All booked rooms in test Hotel "Chillzone" - 2 luxes and 4 default rooms
+        var chillzoneBookedRoomsList = new List<BookedRoomType>
+        {
+            new BookedRoomType(roomList[0], clientList[0], DateTime.MinValue, DateTime.MaxValue, DateTime.MaxValue.Subtract(DateTime.MinValue).Days),
+            new BookedRoomType(roomList[0], clientList[1], DateTime.MinValue, DateTime.MaxValue, DateTime.MaxValue.Subtract(DateTime.MinValue).Days),
+            new BookedRoomType(roomList[1], clientList[0], DateTime.MinValue, DateTime.MaxValue, DateTime.MaxValue.Subtract(DateTime.MinValue).Days),
+            new BookedRoomType(roomList[1], clientList[0], DateTime.MinValue, DateTime.MaxValue, DateTime.MaxValue.Subtract(DateTime.MinValue).Days),
+            new BookedRoomType(roomList[1], clientList[0], DateTime.MinValue, DateTime.MaxValue, DateTime.MaxValue.Subtract(DateTime.MinValue).Days),
+            new BookedRoomType(roomList[1], clientList[0], DateTime.MinValue, DateTime.MaxValue, DateTime.MaxValue.Subtract(DateTime.MinValue).Days)
+        };
+        hotelList[2].BookedRooms = chillzoneBookedRoomsList;
+
+        // All booked rooms in test hotel "Comfort Palace" - 1 luxe and 2 default rooms
+        var comfortPalaceBookedRoomsList = new List<BookedRoomType>
+        {
+            new BookedRoomType(roomList[0], clientList[0], DateTime.MinValue, DateTime.MaxValue, DateTime.MaxValue.Subtract(DateTime.MinValue).Days),
+            new BookedRoomType(roomList[1], clientList[1], DateTime.MinValue, DateTime.MaxValue, DateTime.MaxValue.Subtract(DateTime.MinValue).Days),
+            new BookedRoomType(roomList[1], clientList[0], DateTime.MinValue, DateTime.MaxValue, DateTime.MaxValue.Subtract(DateTime.MinValue).Days),
+        };
+        hotelList[1].BookedRooms = comfortPalaceBookedRoomsList;
+
+        // All booked rooms in test hotel "Sleepy Place" - 2 default rooms
+        var sleepyPlaceBookedRoomsList = new List<BookedRoomType>
+        {
+            new BookedRoomType(roomList[1], clientList[0], DateTime.MinValue, DateTime.MaxValue, DateTime.MaxValue.Subtract(DateTime.MinValue).Days),
+            new BookedRoomType(roomList[1], clientList[1], DateTime.MinValue, DateTime.MaxValue, DateTime.MaxValue.Subtract(DateTime.MinValue).Days),
+        };
+        hotelList[0].BookedRooms = sleepyPlaceBookedRoomsList;
+
+        // All booked rooms in test hotel "Firt Class" - one room
+        var firstClassBookedRoomsList = new List<BookedRoomType>
+        {
+            new BookedRoomType(roomList[1], clientList[0], DateTime.MinValue, DateTime.MaxValue, DateTime.MaxValue.Subtract(DateTime.MinValue).Days),
+        };
+        hotelList[4].BookedRooms = firstClassBookedRoomsList;
+
+
+        // Sort hotelList by booked rooms count
+        hotelList.Sort(delegate (HotelType x, HotelType y)
+        {
+            return x.BookedRooms.Count.CompareTo(y.BookedRooms.Count);
+        });
+        hotelList.Reverse();
+
+
+        Assert.Equal("Chillzone", hotelList[0].Name); // Chillzone has 6 booked rooms
+        Assert.Equal("Comfort Palace", hotelList[1].Name); // Comfort Palace has 3 booked rooms
+        Assert.Equal("Sleepy Place", hotelList[2].Name); // Sleepy Place has 2 booked rooms
+        Assert.Equal("First Class", hotelList[3].Name); // First class has 1 booked room
+        Assert.Equal("Cheap'n'Cool", hotelList[4].Name); // Cheap'n'cool has no booked rooms
+    }
 }
