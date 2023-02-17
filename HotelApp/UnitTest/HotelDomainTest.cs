@@ -151,4 +151,22 @@ public class HotelDomainTest
         Assert.NotEmpty(hotelList[4].Rooms);
         Assert.NotEmpty(hotelList[4].Clients);
     }
+
+    [Fact]
+    // Output all information about hotel clients as unit test
+    public void SecondRequestTest()
+    {
+        var clientList = new List<ClientType>
+        {
+            new ClientType("12 34 567890", "Charlie Scene", DateTime.MaxValue),
+            new ClientType("09 87 654321", "Dedova Mama Papovna", DateTime.MinValue)
+        };
+
+        var hotel = new HotelType("Sleepy Place", "Voidburg", "Elea st. 1");
+        hotel.Clients = clientList;
+
+        Assert.Equal("Charlie Scene", hotel.Clients[0].FullName);
+        Assert.Equal("09 87 654321", hotel.Clients[1].Passport);
+        Assert.Equal(DateTime.MinValue, hotel.Clients[1].BirthDate);
+    }
 }
