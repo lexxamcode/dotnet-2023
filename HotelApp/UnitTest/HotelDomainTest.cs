@@ -5,6 +5,27 @@ namespace UnitTest;
 
 public class HotelDomainTest
 {
+    private List<RoomType> CreateDefaultRooms()
+    {
+        return new List<RoomType>()
+        {
+            new RoomType("Luxe", 5, 4500),
+            new RoomType("Default", 100, 1000),
+            new RoomType("Staff", 2, 0)
+        };
+    }
+    private List<ClientType> CreateClientsList()
+    {
+        // Test values representing clients
+        return new List<ClientType>()
+        {
+            new ClientType("12 34 567890", "Charlie Scene", DateTime.MaxValue),
+            new ClientType("09 87 654321", "Dedova Mama Papovna", DateTime.MinValue),
+            new ClientType("10 20 304050", "Kotovich Alexey Nikolaevich", DateTime.Parse("30.01.2002")),
+            new ClientType("11 22 334455", "Ivanova Maria Ivanovna", DateTime.Parse("11.12.2003")),
+            new ClientType("66 77 889900", "Miroslav Anantha", DateTime.Parse("15.06.1991"))
+        };
+    }
     private List<HotelType> CreateFilledHotelList()
     {
         // List of test hotels
@@ -18,19 +39,8 @@ public class HotelDomainTest
         };
 
         // Test values representing 3 types of room available in each hotel;
-        var roomList = new List<RoomType>
-        {
-            new RoomType("Luxe", 5, 4500),
-            new RoomType("Default", 100, 1000),
-            new RoomType("Staff", 2, 0)
-        };
-
-        // Test values representing clients
-        var clientList = new List<ClientType>
-        {
-            new ClientType("12 34 567890", "Charlie Scene", DateTime.MaxValue),
-            new ClientType("09 87 654321", "Dedova Mama Papovna", DateTime.MinValue)
-        };
+        var roomList = CreateDefaultRooms();
+        var clientList = CreateClientsList();
 
         // All booked rooms in test Hotel "Chillzone" - 2 luxes and 4 default rooms
         var chillzoneBookedRoomsList = new List<BookedRoomType>
@@ -192,35 +202,12 @@ public class HotelDomainTest
     // Output information about all hotels in database as unit test
     public void FirstRequestTest()
     {
-        var hotelList = new List<HotelType>
-        {
-            new HotelType("Sleepy Place", "Voidburg", "Elea st. 1"),
-            new HotelType("Comfort Palace", "Voidburg", "Nocturne st. 2"),
-            new HotelType("Chillzone", "Voidburg", "Salzburg st. 3"),
-            new HotelType("Cheap'n'cool", "Voidburg", "Trauma st. 4"),
-            new HotelType("First class", "Nullvillage", "Toi st. 5")
-        };
-
-        var roomList = new List<RoomType>
-        {
-            new RoomType("Luxe", 5, 4500),
-            new RoomType("Default", 100, 1000),
-            new RoomType("Staff", 2, 0)
-        };
-
-        var clientList = new List<ClientType>
-        {
-            new ClientType("12 34 567890", "Charlie Scene", DateTime.MaxValue),
-            new ClientType("09 87 654321", "Dedova Mama Papovna", DateTime.MinValue)
-        };
-
-        hotelList[4].Rooms = roomList;
-        hotelList[4].Clients = clientList;
+        var hotelList = CreateFilledHotelList();
 
         Assert.Equal("Sleepy Place", hotelList[0].Name);
         Assert.Equal("Voidburg", hotelList[1].City);
         Assert.Equal("Salzburg st. 3", hotelList[2].Address);
-        Assert.Empty(hotelList[3].Clients);
+        Assert.NotEmpty(hotelList[3].Clients);
         Assert.NotEmpty(hotelList[4].Rooms);
         Assert.NotEmpty(hotelList[4].Clients);
     }
@@ -329,4 +316,94 @@ public class HotelDomainTest
         Assert.Equal((uint)5, availableLuxeRooms[4]);
     }
 
+    [Fact]
+    //Output information about clients who booked rooms for the highest amount of days - as unit test
+    public void FifthRequestTest()
+    {
+        var hotel = new HotelType("test hotel", "test city", "test address");
+        hotel.Clients = CreateClientsList();
+        hotel.Rooms = CreateDefaultRooms();
+
+        hotel.BookedRooms = new List<BookedRoomType>()
+        {
+            // Charlie Scene - 2 days
+            new BookedRoomType(hotel.Rooms[0], hotel.Clients[0],
+                               DateTime.Parse("14.02.2023"), DateTime.Parse("16.02.2023"),
+                               DateTime.Parse("16.02.2023").Subtract(DateTime.Parse("14.02.2023")).TotalDays),
+            // Dedova Mama Papovna - 6 days
+            new BookedRoomType(hotel.Rooms[1], hotel.Clients[1],
+                               DateTime.Parse("15.02.2023"), DateTime.Parse("21.02.2023"),
+                               DateTime.Parse("21.02.2023").Subtract(DateTime.Parse("15.02.2023")).TotalDays),
+            // Kotovich Alexey Nikolaevich - 1 day
+            new BookedRoomType(hotel.Rooms[1], hotel.Clients[2],
+                               DateTime.Parse("16.02.2023"), DateTime.Parse("17.02.2023"),
+                               DateTime.Parse("17.02.2023").Subtract(DateTime.Parse("18.02.2023")).TotalDays),
+            // Ivanova Maria Ivanovna - 5 days
+            new BookedRoomType(hotel.Rooms[1], hotel.Clients[3],
+                               DateTime.Parse("16.02.2023"), DateTime.Parse("21.02.2023"),
+                               DateTime.Parse("21.02.2023").Subtract(DateTime.Parse("18.02.2023")).TotalDays),
+            // Miroslav Anantha - 3 days
+            new BookedRoomType(hotel.Rooms[1], hotel.Clients[4],
+                               DateTime.Parse("21.02.2023"), DateTime.Parse("24.02.2023"),
+                               DateTime.Parse("24.02.2023").Subtract(DateTime.Parse("21.02.2023")).TotalDays)
+
+        };
+
+        // Sort
+        hotel.BookedRooms.Sort(delegate (BookedRoomType x, BookedRoomType y)
+        {
+            return (x.BookingPeriodInDays).CompareTo(y.BookingPeriodInDays);
+        });
+        hotel.BookedRooms.Reverse();
+
+        Assert.Equal("Dedova Mama Papovna", hotel.BookedRooms[0].Client.FullName);
+        Assert.Equal("Ivanova Maria Ivanovna", hotel.BookedRooms[1].Client.FullName);
+        Assert.Equal("Miroslav Anantha", hotel.BookedRooms[2].Client.FullName);
+        Assert.Equal("Charlie Scene", hotel.BookedRooms[3].Client.FullName);
+        Assert.Equal("Kotovich Alexey Nikolaevich", hotel.BookedRooms[4].Client.FullName);
+    }
+
+    [Fact]
+    public void SixthRequestTest()
+    {
+        var firstHotel = new HotelType("test hotel 1", "test city", "test address");
+        firstHotel.Rooms = new List<RoomType>()
+        {
+            new RoomType("Luxe", 5, 35000),
+            new RoomType("High-class", 30, 30000),
+            new RoomType("Default", 100, 10000)
+        };
+        var firstHotelAveragePrice = firstHotel.Rooms.Average(room => room.Cost);
+        // average cost = (35+30+10)/3 = 25 0000 
+
+        var secondHotel = new HotelType("test hotel 2", "test city", "test address");
+        secondHotel.Rooms = new List<RoomType>()
+        {
+            new RoomType("Luxe", 10, 20000),
+            new RoomType("High-class", 20, 15000),
+            new RoomType("Default", 40, 10000)
+        };
+        var secondHotelAveragePrice = secondHotel.Rooms.Average(room => room.Cost);
+        // average cost = (20+15+10)/3 = 15 0000
+
+
+        // first room in sorted list is the cheapiest room
+        // the last one - the most expensive
+        firstHotel.Rooms.Sort(delegate (RoomType x, RoomType y)
+        {
+            return (x.Cost).CompareTo(y.Cost);
+        });
+        secondHotel.Rooms.Sort(delegate (RoomType x, RoomType y)
+        {
+            return (x.Cost).CompareTo(y.Cost);
+        });
+
+        Assert.Equal((uint)10000, firstHotel.Rooms[0].Cost);
+        Assert.Equal((uint)35000, firstHotel.Rooms[2].Cost);
+        Assert.Equal((uint)25000, firstHotelAveragePrice);
+
+        Assert.Equal((uint)10000, secondHotel.Rooms[0].Cost);
+        Assert.Equal((uint)20000, secondHotel.Rooms[2].Cost);
+        Assert.Equal((uint)15000, secondHotelAveragePrice);
+    }
 }
