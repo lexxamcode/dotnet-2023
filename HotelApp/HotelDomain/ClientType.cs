@@ -11,8 +11,17 @@ namespace HotelDomain;
 /// </summary>
 public class ClientType
 {
+    /// <summary>
+    /// Passport - a string representing passport number
+    /// </summary>
     public string Passport { set; get; } = String.Empty;
+    /// <summary>
+    /// FullName - a string for name, second_name and surname optionally
+    /// </summary>
     public string FullName { set; get; } = String.Empty;
+    /// <summary>
+    /// BirthDate - DateTime typed value for storing birth date of person
+    /// </summary>
     public DateTime BirthDate { set; get; } = DateTime.MinValue;
 
     public ClientType() { }

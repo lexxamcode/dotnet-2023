@@ -11,8 +11,17 @@ namespace HotelDomain;
 /// </summary>
 public class RoomType
 {
+    /// <summary>
+    /// Type - string typed value representing a type of the room
+    /// </summary>
     public string Type { get; set; } = string.Empty;
+    /// <summary>
+    /// Amount - uint value for storing an amount of rooms of this type
+    /// </summary>
     public uint Amount { get; set; } = uint.MinValue;
+    /// <summary>
+    /// Cost - uint for storing a cost of the room
+    /// </summary>
     public uint Cost { get; set; } = uint.MinValue;
 
     public RoomType() { }

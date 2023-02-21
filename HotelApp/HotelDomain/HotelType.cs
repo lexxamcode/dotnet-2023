@@ -6,8 +6,17 @@ namespace HotelDomain;
 /// </summary>
 public class HotelType
 {
+    /// <summary>
+    /// Name - string value for name of the hotel
+    /// </summary>
     public string Name { get; set; } = String.Empty;
+    /// <summary>
+    /// City - string value for city name of the hotel
+    /// </summary>
     public string City { get; set; } = String.Empty;    
+    /// <summary>
+    /// Address - string value for address where the hotel is
+    /// </summary>
     public string Address { get; set; } = String.Empty; 
 
     public List<RoomType> Rooms { get; set; } = new();

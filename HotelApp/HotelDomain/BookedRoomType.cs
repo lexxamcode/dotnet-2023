@@ -11,10 +11,25 @@ namespace HotelDomain;
 /// </summary>
 public class BookedRoomType
 {
+    /// <summary>
+    /// Room value represents a type of the booked room
+    /// </summary>
     public RoomType Room { get; set; } = new();
+    /// <summary>
+    /// Client value represents a person who booked the room
+    /// </summary>
     public ClientType Client { get; set; } = new();
+    /// <summary>
+    /// CheckInDate - DateTime typed value for storing a date of checking-in
+    /// </summary>
     public DateTime CheckInDate { get; set; } = DateTime.MinValue;
+    /// <summary>
+    /// DepartureDate - DateTime typed value representing a departure date
+    /// </summary>
     public DateTime DepartureDate { get; set; } = DateTime.MaxValue;
+    /// <summary>
+    /// BookingPeriodInDays double typed value representing an amount of days between check-in and departure
+    /// </summary>
     public double BookingPeriodInDays 
     { 
         get => DepartureDate.Subtract(CheckInDate).Days; 
