@@ -1,10 +1,12 @@
 using HotelDomain;
 using System.Security.Cryptography;
+using Xunit.Sdk;
 
 namespace UnitTest;
 
 public class HotelDomainTest
 {
+    // Initializes standart list of rooms for tests
     private List<RoomType> CreateDefaultRooms()
     {
         return new List<RoomType>()
@@ -14,6 +16,7 @@ public class HotelDomainTest
             new RoomType("Staff", 2, 0)
         };
     }
+    // Initializes standart list of clients for tests
     private List<ClientType> CreateClientsList()
     {
         // Test values representing clients
@@ -26,6 +29,7 @@ public class HotelDomainTest
             new ClientType("66 77 889900", "Miroslav Anantha", DateTime.Parse("15.06.1991"))
         };
     }
+    // Initializes 5 hotels for tests
     private List<HotelType> CreateFilledHotelList()
     {
         // List of test hotels
@@ -202,32 +206,31 @@ public class HotelDomainTest
     // Output information about all hotels in database as unit test
     public void FirstRequestTest()
     {
-        var hotelList = CreateFilledHotelList();
+        var requestHotelList = from hotel in CreateFilledHotelList()
+                               select hotel;
 
-        Assert.Equal("Sleepy Place", hotelList[0].Name);
-        Assert.Equal("Voidburg", hotelList[1].City);
-        Assert.Equal("Salzburg st. 3", hotelList[2].Address);
-        Assert.NotEmpty(hotelList[3].Clients);
-        Assert.NotEmpty(hotelList[4].Rooms);
-        Assert.NotEmpty(hotelList[4].Clients);
+        Assert.Equal("Sleepy Place", requestHotelList.ElementAt(0).Name);
+        Assert.Equal("Voidburg", requestHotelList.ElementAt(1).City);
+        Assert.Equal("Salzburg st. 3", requestHotelList.ElementAt(2).Address);
+        Assert.NotEmpty(requestHotelList.ElementAt(3).Clients);
+        Assert.NotEmpty(requestHotelList.ElementAt(4).Rooms);
+        Assert.NotEmpty(requestHotelList.ElementAt(4).Clients);
     }
 
     [Fact]
     // Output all information about hotel clients as unit test
     public void SecondRequestTest()
     {
-        var clientList = new List<ClientType>
-        {
-            new ClientType("12 34 567890", "Charlie Scene", DateTime.MaxValue),
-            new ClientType("09 87 654321", "Dedova Mama Papovna", DateTime.MinValue)
-        };
+        var hotelList = CreateFilledHotelList();
 
-        var hotel = new HotelType("Sleepy Place", "Voidburg", "Elea st. 1");
-        hotel.Clients = clientList;
+        var clients = from hotel in hotelList where hotel.Name == "Sleepy Place"
+                      from client in hotel.Clients
+                      orderby client.FullName ascending
+                      select client;
 
-        Assert.Equal("Charlie Scene", hotel.Clients[0].FullName);
-        Assert.Equal("09 87 654321", hotel.Clients[1].Passport);
-        Assert.Equal(DateTime.MinValue, hotel.Clients[1].BirthDate);
+        Assert.Equal("Charlie Scene", clients.ElementAt(0).FullName);
+        Assert.Equal("09 87 654321", clients.ElementAt(1).Passport);
+        Assert.Equal(DateTime.MinValue, clients.ElementAt(1).BirthDate);
     }
 
     [Fact]
@@ -236,32 +239,20 @@ public class HotelDomainTest
     {
         var hotelList = CreateFilledHotelList();
 
-        // Sort hotelList by booked rooms count using delegate using LINQ
+        // Sort hotelList by booked rooms count using LINQ
         var linqSortedHotelList = from hotel in hotelList
                                   orderby hotel.BookedRooms.Count descending
                                   select hotel;
-        // Sort hotelList by booked rooms count using delegate
-        hotelList.Sort(delegate (HotelType x, HotelType y)
-        {
-            return x.BookedRooms.Count.CompareTo(y.BookedRooms.Count);
-        });
-        hotelList.Reverse();
 
-        Assert.Equal("Chillzone", hotelList[0].Name);       // "Chillzone" has 6 booked rooms
-        Assert.Equal("Comfort Palace", hotelList[1].Name);  // "Comfort" Palace has 3 booked rooms
-        Assert.Equal("Sleepy Place", hotelList[2].Name);    // "Sleepy" Place has 2 booked rooms
-        Assert.Equal("First Class", hotelList[3].Name);     // "First" class has 1 booked room
-        Assert.Equal("Cheap'n'Cool", hotelList[4].Name);    // "Cheap'n'cool" has no booked rooms
-
-        Assert.Equal("Chillzone", linqSortedHotelList.ElementAt(0).Name);       
-        Assert.Equal("Comfort Palace", linqSortedHotelList.ElementAt(1).Name);  
-        Assert.Equal("Sleepy Place", linqSortedHotelList.ElementAt(2).Name);    
-        Assert.Equal("First Class", linqSortedHotelList.ElementAt(3).Name);     
-        Assert.Equal("Cheap'n'Cool", linqSortedHotelList.ElementAt(4).Name);
+        Assert.Equal("Chillzone", linqSortedHotelList.ElementAt(0).Name);       // "Chillzone" has 6 booked rooms
+        Assert.Equal("Comfort Palace", linqSortedHotelList.ElementAt(1).Name);  // "Comfort" Palace has 3 booked rooms
+        Assert.Equal("Sleepy Place", linqSortedHotelList.ElementAt(2).Name);    // "Sleepy" Place has 2 booked rooms
+        Assert.Equal("First Class", linqSortedHotelList.ElementAt(3).Name);     // "First" class has 1 booked room
+        Assert.Equal("Cheap'n'Cool", linqSortedHotelList.ElementAt(4).Name);    // "Cheap'n'cool" has no booked rooms
     }
 
     [Fact]
-    // Output information about all available rooms at all hotels as unit test
+    // Output information about all available rooms at all hotels in one city as unit test
     public void FourthRequestTest()
     {
         // Each hotel in this test has 5 luxe rooms and 100 default rooms
@@ -271,49 +262,34 @@ public class HotelDomainTest
         // "Chillzone"          hotelList[2] has 6 booked rooms: 2 luxes and 4 default rooms    => available: 3 luxe, 96 default
         // "Cheap'n'Cool"       hotelList[3] has no booked rooms                                => available: 5 luxe, 100 default
         // "First Class"        hotelList[4] has 1 booked default room                          => available: 5 luxe, 99 default
-        var hotelList = CreateFilledHotelList();
 
-        var availableDefaultRooms = new List<uint>();
-        var availableLuxeRooms = new List<uint>();
+        var freeRooms = from hotel in CreateFilledHotelList()
+                        where hotel.City == "Voidburg"
+                        from room in hotel.Rooms
+                        select new
+                        {
+                            Hotel = hotel.Name,
+                            Type = room.Type,
+                            Amount = room.Amount - (from booked_room in hotel.BookedRooms
+                                                    where booked_room.Room.Equals(room)
+                                                    select booked_room).Count()
+                        };
 
-        foreach (var hotel in hotelList)
-        {
-            uint defaultRoomsCount = 0, luxeRoomsCount = 0;
-            uint bookedDefaultRoomsCount, bookedLuxeRoomsCount;
+        Assert.Equal((uint)5, freeRooms.ElementAt(0).Amount);   // hotelList[0] luxe
+        Assert.Equal((uint)98, freeRooms.ElementAt(1).Amount);  // hotelList[0] default
+        Assert.Equal((uint)2, freeRooms.ElementAt(2).Amount);   // hotelList[0] staff
 
-            var defaultRoom = hotel.Rooms.Find(r => r.Type == "Default");
+        Assert.Equal((uint)4, freeRooms.ElementAt(3).Amount);   // hotelList[1] luxe
+        Assert.Equal((uint)98, freeRooms.ElementAt(4).Amount);  // hotelList[1] default
+        Assert.Equal((uint)2, freeRooms.ElementAt(5).Amount);   // hotelList[1] staff
 
-            if (defaultRoom != null)
-                defaultRoomsCount = defaultRoom.Amount;
-            else
-                defaultRoomsCount = 0;
+        Assert.Equal((uint)3, freeRooms.ElementAt(6).Amount);   // hotelList[2] luxe
+        Assert.Equal((uint)96, freeRooms.ElementAt(7).Amount);  // hotelList[2] default
+        Assert.Equal((uint)2, freeRooms.ElementAt(8).Amount);   // hotelList[2] staff
 
-            bookedDefaultRoomsCount = (uint)hotel.BookedRooms.Count(br => br.Room.Type == "Default");
-
-            var luxeRoom = hotel.Rooms.Find(r => r.Type == "Luxe");
-            if (luxeRoom != null)
-                luxeRoomsCount = luxeRoom.Amount;
-
-            bookedLuxeRoomsCount = (uint)hotel.BookedRooms.Count(br => br.Room.Type == "Luxe");
-
-            availableDefaultRooms.Add(defaultRoomsCount - bookedDefaultRoomsCount);
-            availableLuxeRooms.Add(luxeRoomsCount- bookedLuxeRoomsCount);
-        }
-
-        Assert.Equal((uint)98, availableDefaultRooms.ElementAt(0)); // hotelList[0]
-        Assert.Equal((uint)5, availableLuxeRooms[0]);
-
-        Assert.Equal((uint)98, availableDefaultRooms[1]); // hotelList[1]
-        Assert.Equal((uint)4, availableLuxeRooms[1]);
-
-        Assert.Equal((uint)96, availableDefaultRooms[2]); // hotelList[2]
-        Assert.Equal((uint)3, availableLuxeRooms[2]);
-
-        Assert.Equal((uint)100, availableDefaultRooms[3]);   // hotelList[3]
-        Assert.Equal((uint)5, availableLuxeRooms[3]);
-
-        Assert.Equal((uint)99, availableDefaultRooms[4]); // hotelList[4]
-        Assert.Equal((uint)5, availableLuxeRooms[4]);
+        Assert.Equal((uint)5, freeRooms.ElementAt(9).Amount);      // hotelList[3] luxe
+        Assert.Equal((uint)100, freeRooms.ElementAt(10).Amount);   // hotelList[3] default
+        Assert.Equal((uint)2, freeRooms.ElementAt(11).Amount);     // hotelList[3] staff
     }
 
     [Fact]
@@ -349,21 +325,20 @@ public class HotelDomainTest
 
         };
 
-        // Sort
-        hotel.BookedRooms.Sort(delegate (BookedRoomType x, BookedRoomType y)
-        {
-            return (x.BookingPeriodInDays).CompareTo(y.BookingPeriodInDays);
-        });
-        hotel.BookedRooms.Reverse();
+        // from hotel select those clients who booked room with longest booking period
+        var clientsWithLongestBookingPeriod = from room in hotel.BookedRooms
+                                 orderby room.BookingPeriodInDays descending
+                                 select room.Client;
 
-        Assert.Equal("Dedova Mama Papovna", hotel.BookedRooms[0].Client.FullName);
-        Assert.Equal("Ivanova Maria Ivanovna", hotel.BookedRooms[1].Client.FullName);
-        Assert.Equal("Miroslav Anantha", hotel.BookedRooms[2].Client.FullName);
-        Assert.Equal("Charlie Scene", hotel.BookedRooms[3].Client.FullName);
-        Assert.Equal("Kotovich Alexey Nikolaevich", hotel.BookedRooms[4].Client.FullName);
+        Assert.Equal("Dedova Mama Papovna", clientsWithLongestBookingPeriod.ElementAt(0).FullName);
+        Assert.Equal("Ivanova Maria Ivanovna", clientsWithLongestBookingPeriod.ElementAt(1).FullName);
+        Assert.Equal("Miroslav Anantha", clientsWithLongestBookingPeriod.ElementAt(2).FullName);
+        Assert.Equal("Charlie Scene", clientsWithLongestBookingPeriod.ElementAt(3).FullName);
+        Assert.Equal("Kotovich Alexey Nikolaevich", clientsWithLongestBookingPeriod.ElementAt(4).FullName);
     }
 
     [Fact]
+    // Output maximum, minimum and average price of room in each hotel as unit-test
     public void SixthRequestTest()
     {
         var firstHotel = new HotelType("test hotel 1", "test city", "test address");
@@ -373,7 +348,6 @@ public class HotelDomainTest
             new RoomType("High-class", 30, 30000),
             new RoomType("Default", 100, 10000)
         };
-        var firstHotelAveragePrice = firstHotel.Rooms.Average(room => room.Cost);
         // average cost = (35+30+10)/3 = 25 0000 
 
         var secondHotel = new HotelType("test hotel 2", "test city", "test address");
@@ -383,27 +357,24 @@ public class HotelDomainTest
             new RoomType("High-class", 20, 15000),
             new RoomType("Default", 40, 10000)
         };
-        var secondHotelAveragePrice = secondHotel.Rooms.Average(room => room.Cost);
         // average cost = (20+15+10)/3 = 15 0000
 
+        var hotelList = new List<HotelType> { firstHotel, secondHotel };
 
-        // first room in sorted list is the cheapiest room
-        // the last one - the most expensive
-        firstHotel.Rooms.Sort(delegate (RoomType x, RoomType y)
-        {
-            return (x.Cost).CompareTo(y.Cost);
-        });
-        secondHotel.Rooms.Sort(delegate (RoomType x, RoomType y)
-        {
-            return (x.Cost).CompareTo(y.Cost);
-        });
+        var prices = from hotel in hotelList
+                     select new
+                     {
+                         Min = hotel.Rooms.Min(r => r.Cost),
+                         Max = hotel.Rooms.Max(r => r.Cost),
+                         Average = hotel.Rooms.Sum(r => r.Cost) / hotel.Rooms.Count()
+                     };
 
-        Assert.Equal((uint)10000, firstHotel.Rooms[0].Cost);
-        Assert.Equal((uint)35000, firstHotel.Rooms[2].Cost);
-        Assert.Equal((uint)25000, firstHotelAveragePrice);
+        Assert.Equal((uint)10000, prices.ElementAt(0).Min);
+        Assert.Equal((uint)35000, prices.ElementAt(0).Max);
+        Assert.Equal((uint)25000, prices.ElementAt(0).Average);
 
-        Assert.Equal((uint)10000, secondHotel.Rooms[0].Cost);
-        Assert.Equal((uint)20000, secondHotel.Rooms[2].Cost);
-        Assert.Equal((uint)15000, secondHotelAveragePrice);
+        Assert.Equal((uint)10000, prices.ElementAt(1).Min);
+        Assert.Equal((uint)20000, prices.ElementAt(1).Max);
+        Assert.Equal((uint)15000, prices.ElementAt(1).Average);
     }
 }
