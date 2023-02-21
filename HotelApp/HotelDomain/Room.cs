@@ -1,15 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using HotelDomain;
-
-namespace HotelDomain;
+﻿namespace HotelDomain;
 /// <summary>
 /// RoomType describes a room in hotel.
 /// </summary>
-public class RoomType
+public class Room
 {
     /// <summary>
     /// Type - string typed value representing a type of the room
@@ -24,8 +17,8 @@ public class RoomType
     /// </summary>
     public uint Cost { get; set; } = uint.MinValue;
 
-    public RoomType() { }
-    public RoomType(string type, uint amount, uint cost)
+    public Room() { }
+    public Room(string type, uint amount, uint cost)
     {
         Type = type;
         Amount = amount;
@@ -34,7 +27,7 @@ public class RoomType
 
     public override bool Equals(object? obj)
     {
-        if (obj is not RoomType param)
+        if (obj is not Room param)
             return false;
         return Type == param.Type && Amount == param.Amount && Cost == param.Cost;
     }

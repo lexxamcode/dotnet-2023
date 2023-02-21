@@ -1,37 +1,36 @@
-﻿using HotelDomain;
-namespace HotelDomain;
+﻿namespace HotelDomain;
 
 /// <summary>
-/// HotelType is a type describing a hotel
+/// Hotel is a type describing a hotel
 /// </summary>
-public class HotelType
+public class Hotel
 {
     /// <summary>
     /// Name - string value for name of the hotel
     /// </summary>
-    public string Name { get; set; } = String.Empty;
+    public string Name { get; set; } = string.Empty;
     /// <summary>
     /// City - string value for city name of the hotel
     /// </summary>
-    public string City { get; set; } = String.Empty;    
+    public string City { get; set; } = string.Empty;
     /// <summary>
     /// Address - string value for address where the hotel is
     /// </summary>
-    public string Address { get; set; } = String.Empty; 
+    public string Address { get; set; } = string.Empty;
 
-    public List<RoomType> Rooms { get; set; } = new();
-    public List<BookedRoomType> BookedRooms { get; set; } = new();
-    public List<ClientType> Clients { get; set; } = new();
+    public List<Room> Rooms { get; set; } = new();
+    public List<BookedRoom> BookedRooms { get; set; } = new();
+    public List<Client> Clients { get; set; } = new();
 
-    public HotelType() { }
-    public HotelType(string name, string city, string address)
+    public Hotel() { }
+    public Hotel(string name, string city, string address)
     {
         Name = name;
         City = city;
         Address = address;
     }
 
-    public HotelType(string name, string city, string address, List<RoomType> rooms, List<BookedRoomType> bookedRooms, List<ClientType> clients)
+    public Hotel(string name, string city, string address, List<Room> rooms, List<BookedRoom> bookedRooms, List<Client> clients)
            : this(name, city, address)
     {
         Rooms = rooms;
@@ -41,7 +40,7 @@ public class HotelType
 
     public override bool Equals(object? obj)
     {
-        if (obj is not HotelType param)
+        if (obj is not Hotel param)
             return false;
 
         return Name == param.Name && City == param.City &&
@@ -51,6 +50,6 @@ public class HotelType
 
     public override int GetHashCode()
     {
-        return HashCode.Combine(Name,City, Address, Rooms, BookedRooms, Clients);
+        return HashCode.Combine(Name, City, Address, Rooms, BookedRooms, Clients);
     }
 }
