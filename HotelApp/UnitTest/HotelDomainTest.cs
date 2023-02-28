@@ -240,15 +240,15 @@ public class HotelDomainTest
         var hotelList = CreateFilledHotelList();
 
         // Sort hotelList by booked rooms count using LINQ
-        var linqSortedHotelList = from hotel in hotelList
+        var linqSortedHotelList = (from hotel in hotelList
                                   orderby hotel.BookedRooms.Count descending
-                                  select hotel;
+                                  select hotel).ToList();
 
-        Assert.Equal("Chillzone", linqSortedHotelList.ElementAt(0).Name);       // "Chillzone" has 6 booked rooms
-        Assert.Equal("Comfort Palace", linqSortedHotelList.ElementAt(1).Name);  // "Comfort" Palace has 3 booked rooms
-        Assert.Equal("Sleepy Place", linqSortedHotelList.ElementAt(2).Name);    // "Sleepy" Place has 2 booked rooms
-        Assert.Equal("First Class", linqSortedHotelList.ElementAt(3).Name);     // "First" class has 1 booked room
-        Assert.Equal("Cheap'n'Cool", linqSortedHotelList.ElementAt(4).Name);    // "Cheap'n'cool" has no booked rooms
+        Assert.Equal("Chillzone", linqSortedHotelList[0].Name);       // "Chillzone" has 6 booked rooms
+        Assert.Equal("Comfort Palace", linqSortedHotelList[1].Name);  // "Comfort" Palace has 3 booked rooms
+        Assert.Equal("Sleepy Place", linqSortedHotelList[2].Name);    // "Sleepy" Place has 2 booked rooms
+        Assert.Equal("First Class", linqSortedHotelList[3].Name);     // "First" class has 1 booked room
+        Assert.Equal("Cheap'n'Cool", linqSortedHotelList[4].Name);    // "Cheap'n'cool" has no booked rooms
     }
 
     [Fact]
