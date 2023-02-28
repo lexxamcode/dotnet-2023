@@ -4,7 +4,12 @@ namespace UnitTest;
 
 public class HotelDomainTest
 {
-    // Initializes standart list of rooms for tests
+    /// <summary>
+    /// Initializes standart list of rooms for tests
+    /// </summary>
+    /// <returns>
+    /// List containing 3 types of room: Luxe, Default, Staff.
+    /// </returns>
     private List<Room> CreateDefaultRooms()
     {
         return new List<Room>()
@@ -14,7 +19,10 @@ public class HotelDomainTest
             new Room(Guid.NewGuid(), "Staff", 2, 0)
         };
     }
-    // Initializes standart list of clients for tests
+    /// <summary>
+    /// Initializes standart list of clients for tests
+    /// </summary>
+    /// <returns> List of 5 Client values with test data</returns>
     private List<Client> CreateClientsList()
     {
         // Test values representing clients
@@ -27,10 +35,12 @@ public class HotelDomainTest
             new Client(Guid.NewGuid(), "66 77 889900", "Miroslav", "Anantha", string.Empty, DateTime.Parse("15.06.1991"))
         };
     }
-    // Initializes 5 hotels for tests
+    /// <summary>
+    /// Initializes 5 hotels for tests
+    /// </summary>
+    /// <returns> List of 5 Hotel values with test data </returns>
     private List<Hotel> CreateFilledHotelList()
     {
-        // List of test hotels
         var hotelList = new List<Hotel>
         {
             new Hotel(Guid.NewGuid(), "Sleepy Place", "Voidburg", "Elea st. 1"),
@@ -40,7 +50,6 @@ public class HotelDomainTest
             new Hotel(Guid.NewGuid(), "First Class", "Nullvillage", "Toi st. 5")
         };
 
-        // Test values representing 3 types of room available in each hotel;
         var roomList = CreateDefaultRooms();
         var clientList = CreateClientsList();
 
@@ -199,8 +208,10 @@ public class HotelDomainTest
         Assert.Equal(secondClient, wellKnownHotel.Clients[1]);
     }
 
+    /// <summary>
+    /// Output information about all hotels in database as unit test
+    /// </summary>
     [Fact]
-    // Output information about all hotels in database as unit test
     public void FirstRequestTest()
     {
         var requestHotelList = (from hotel in CreateFilledHotelList()
@@ -214,8 +225,10 @@ public class HotelDomainTest
         Assert.NotEmpty(requestHotelList[4].Clients);
     }
 
+    /// <summary>
+    /// Output all information about hotel clients as unit test
+    /// </summary>
     [Fact]
-    // Output all information about hotel clients as unit test
     public void SecondRequestTest()
     {
         var hotelList = CreateFilledHotelList();
@@ -233,8 +246,10 @@ public class HotelDomainTest
         Assert.Equal(string.Empty, clients[4].Surname);
     }
 
+    /// <summary>
+    /// Top-5 most booked hotels as unit test
+    /// </summary>
     [Fact]
-    // Top-5 most booked hotels as unit test
     public void ThirdRequestTest()
     {
         var hotelList = CreateFilledHotelList();
@@ -251,18 +266,20 @@ public class HotelDomainTest
         Assert.Equal("Cheap'n'Cool", linqSortedHotelList[4].Name);    // "Cheap'n'cool" has no booked rooms
     }
 
+    /// <summary>
+    /// Output information about all available rooms at all hotels in one city as unit test
+    /// 
+    /// Each hotel in this test has 5 luxe rooms and 100 default rooms
+    ///
+    /// "Sleepy Place"       hotelList[0] has 2 booked default rooms                        => available: 5 luxe, 98 default
+    /// "Comfort Palace"     hotelList[1] has 3 booked rooms: 1 luxe and 2 default rooms    => available: 4 luxe, 98 default
+    /// "Chillzone"          hotelList[2] has 6 booked rooms: 2 luxes and 4 default rooms   => available: 3 luxe, 96 default
+    /// "Cheap'n'Cool"       hotelList[3] has no booked rooms                               => available: 5 luxe, 100 default
+    /// "First Class"        hotelList[4] has 1 booked default room                         => available: 5 luxe, 99 default 
+    /// </summary>
     [Fact]
-    // Output information about all available rooms at all hotels in one city as unit test
     public void FourthRequestTest()
     {
-        // Each hotel in this test has 5 luxe rooms and 100 default rooms
-        //
-        // "Sleepy Place"       hotelList[0] has 2 booked default rooms                         => available: 5 luxe, 98 default
-        // "Comfort Palace"     hotelList[1] has 3 booked rooms: 1 luxe and 2 default rooms     => available: 4 luxe, 98 default
-        // "Chillzone"          hotelList[2] has 6 booked rooms: 2 luxes and 4 default rooms    => available: 3 luxe, 96 default
-        // "Cheap'n'Cool"       hotelList[3] has no booked rooms                                => available: 5 luxe, 100 default
-        // "First Class"        hotelList[4] has 1 booked default room                          => available: 5 luxe, 99 default
-
         var freeRooms = (from hotel in CreateFilledHotelList()
                         where hotel.City == "Voidburg"
                         from room in hotel.Rooms
@@ -292,8 +309,10 @@ public class HotelDomainTest
         Assert.Equal(2, freeRooms[11].Amount);        // hotelList[3] staff
     }
 
+    /// <summary>
+    /// Output information about clients who booked rooms for the highest amount of days - as unit test
+    /// </summary>
     [Fact]
-    //Output information about clients who booked rooms for the highest amount of days - as unit test
     public void FifthRequestTest()
     {
         var hotel = new Hotel(Guid.NewGuid(), "test hotel", "test city", "test address");
@@ -327,8 +346,10 @@ public class HotelDomainTest
         Assert.Equal("Kotovich", clientsWithLongestBookingPeriod[4].SecondName);
     }
 
+    /// <summary>
+    /// Output maximum, minimum and average price of room in each hotel as unit-test
+    /// </summary>
     [Fact]
-    // Output maximum, minimum and average price of room in each hotel as unit-test
     public void SixthRequestTest()
     {
         var firstHotel = new Hotel(Guid.NewGuid(), "test hotel 1", "test city", "test address");
