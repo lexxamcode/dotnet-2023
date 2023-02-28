@@ -5,23 +5,32 @@
 public class Client
 {
     /// <summary>
+    /// Id - guid typed value for storing Id of the client
+    /// </summary>
+    public Guid Id { get; set; } = Guid.Empty;
+    /// <summary>
     /// Passport - a string representing passport number
     /// </summary>
     public string Passport { set; get; } = string.Empty;
     /// <summary>
-    /// FullName - a string for name, second_name and surname optionally
+    /// FirstName, SecondName, SurName - a string for name, second_name and surname optionally
     /// </summary>  
-    public string FullName { set; get; } = string.Empty;
+    public string FirstName { set; get; } = string.Empty;
+    public string SecondName { set; get; } = string.Empty;
+    public string Surname { set; get; } = string.Empty;
     /// <summary>
     /// BirthDate - DateTime typed value for storing birth date of person
     /// </summary>
     public DateTime BirthDate { set; get; } = DateTime.MinValue;
 
     public Client() { }
-    public Client(string passport, string fullName, DateTime birthDate)
+    public Client(Guid id, string passport, string firstName, string secondName, string surname, DateTime birthDate)
     {
+        Id = id;
         Passport = passport;
-        FullName = fullName;
+        FirstName = firstName;
+        SecondName = secondName;
+        Surname = surname;
         BirthDate = birthDate;
     }
 
@@ -30,11 +39,16 @@ public class Client
         if (obj is not Client param)
             return false;
 
-        return Passport == param.Passport && FullName == param.FullName && BirthDate == param.BirthDate;
+        return Id == param.Id &&
+               Passport == param.Passport && 
+               FirstName == param.FirstName && 
+               SecondName == param.SecondName &&
+               Surname == param.Surname &&
+               BirthDate == param.BirthDate;
     }
 
     public override int GetHashCode()
     {
-        return HashCode.Combine(Passport, FullName, BirthDate);
+        return HashCode.Combine(Id, Passport, FirstName, SecondName, Surname, BirthDate);
     }
 }

@@ -6,6 +6,10 @@
 public class Hotel
 {
     /// <summary>
+    /// Id - guid typed value for storing Id of the client
+    /// </summary>
+    public Guid Id { get; set; } = Guid.Empty;
+    /// <summary>
     /// Name - string value for name of the hotel
     /// </summary>
     public string Name { get; set; } = string.Empty;
@@ -23,15 +27,16 @@ public class Hotel
     public List<Client> Clients { get; set; } = new();
 
     public Hotel() { }
-    public Hotel(string name, string city, string address)
+    public Hotel(Guid id, string name, string city, string address)
     {
+        Id = id;
         Name = name;
         City = city;
         Address = address;
     }
 
-    public Hotel(string name, string city, string address, List<Room> rooms, List<BookedRoom> bookedRooms, List<Client> clients)
-           : this(name, city, address)
+    public Hotel(Guid id, string name, string city, string address, List<Room> rooms, List<BookedRoom> bookedRooms, List<Client> clients)
+           : this(id, name, city, address)
     {
         Rooms = rooms;
         BookedRooms = bookedRooms;
@@ -43,13 +48,14 @@ public class Hotel
         if (obj is not Hotel param)
             return false;
 
-        return Name == param.Name && City == param.City &&
-               Address == param.Address && Rooms.Equals(param.Rooms) &&
-               BookedRooms.Equals(param.BookedRooms) && Clients.Equals(param.Clients);
+        return Id == param.Id && Name == param.Name && 
+               City == param.City && Address == param.Address && 
+               Rooms.Equals(param.Rooms) && BookedRooms.Equals(param.BookedRooms) && 
+               Clients.Equals(param.Clients);
     }
 
     public override int GetHashCode()
     {
-        return HashCode.Combine(Name, City, Address, Rooms, BookedRooms, Clients);
+        return HashCode.Combine(Id, Name, City, Address, Rooms, BookedRooms, Clients);
     }
 }

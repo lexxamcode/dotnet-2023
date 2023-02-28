@@ -5,6 +5,10 @@
 public class BookedRoom
 {
     /// <summary>
+    /// Id - guid typed value for storing Id of the booked room
+    /// </summary>
+    public Guid Id { get; set; } = Guid.Empty;
+    /// <summary>
     /// Room value represents a type of the booked room
     /// </summary>
     public Room Room { get; set; } = new();
@@ -17,41 +21,21 @@ public class BookedRoom
     /// </summary>
     public DateTime CheckInDate { get; set; } = DateTime.MinValue;
     /// <summary>
-    /// DepartureDate - DateTime typed value representing a departure date
-    /// </summary>
-    public DateTime DepartureDate { get; set; } = DateTime.MaxValue;
-    /// <summary>
     /// BookingPeriodInDays double typed value representing an amount of days between check-in and departure
     /// </summary>
-    public double BookingPeriodInDays
-    {
-        get => DepartureDate.Subtract(CheckInDate).Days;
-
-        set
-        {
-            if (CheckInDate.AddDays(value).Year != DepartureDate.Year &&
-                CheckInDate.AddDays(value).Month != DepartureDate.Month &&
-                CheckInDate.AddDays(value).Day != DepartureDate.Day)
-                throw new ArgumentException("Departure date can not be less than check-in date");
-        }
-    }
+    public uint BookingPeriodInDays { get; set; } = 0;
+    /// <summary>
+    /// DepartureDate - DateTime typed value representing a departure date
+    /// </summary>
+    public DateTime DepartureDate { get => CheckInDate.AddDays(BookingPeriodInDays); }
 
     public BookedRoom() { }
-    public BookedRoom(Room room, Client client, DateTime checkInDate, DateTime departureDate, double bookingPeriodInDays)
+    public BookedRoom(Guid id,Room room, Client client, DateTime checkInDate, uint bookingPeriodInDays)
     {
-        if (checkInDate > departureDate)
-            throw new ArgumentException("Departure date can not be less than check-in date");
-
+        Id = id;
         Room = room;
         Client = client;
         CheckInDate = checkInDate;
-        DepartureDate = departureDate;
-
-        if (CheckInDate.AddDays(bookingPeriodInDays).Month != DepartureDate.Year &&
-                CheckInDate.AddDays(bookingPeriodInDays).Month != DepartureDate.Month &&
-                CheckInDate.AddDays(bookingPeriodInDays).Day != DepartureDate.Day)
-            throw new ArgumentException("Departure date can not be less than check-in date");
-
         BookingPeriodInDays = bookingPeriodInDays;
     }
 
@@ -60,7 +44,8 @@ public class BookedRoom
         if (obj is not BookedRoom param)
             return false;
 
-        return Room.Equals(param.Room) && Client.Equals(param.Client) &&
+        return Id == param.Id &&
+               Room.Equals(param.Room) && Client.Equals(param.Client) &&
                CheckInDate == param.CheckInDate &&
                DepartureDate == param.DepartureDate &&
                BookingPeriodInDays == param.BookingPeriodInDays;
@@ -68,6 +53,6 @@ public class BookedRoom
 
     public override int GetHashCode()
     {
-        return HashCode.Combine(Room, Client, CheckInDate, DepartureDate, BookingPeriodInDays);
+        return HashCode.Combine(Id, Room, Client, CheckInDate, DepartureDate, BookingPeriodInDays);
     }
 }

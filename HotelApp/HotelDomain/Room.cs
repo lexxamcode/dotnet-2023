@@ -5,6 +5,10 @@
 public class Room
 {
     /// <summary>
+    /// Id - guid typed value for storing Id of the room
+    /// </summary>
+    public Guid Id { get; set; } = Guid.Empty;
+    /// <summary>
     /// Type - string typed value representing a type of the room
     /// </summary>
     public string Type { get; set; } = string.Empty;
@@ -18,8 +22,9 @@ public class Room
     public uint Cost { get; set; } = uint.MinValue;
 
     public Room() { }
-    public Room(string type, uint amount, uint cost)
+    public Room(Guid id, string type, uint amount, uint cost)
     {
+        Id = id;
         Type = type;
         Amount = amount;
         Cost = cost;
@@ -29,10 +34,10 @@ public class Room
     {
         if (obj is not Room param)
             return false;
-        return Type == param.Type && Amount == param.Amount && Cost == param.Cost;
+        return Id == param.Id && Type == param.Type && Amount == param.Amount && Cost == param.Cost;
     }
     public override int GetHashCode()
     {
-        return HashCode.Combine(Type, Amount, Cost);
+        return HashCode.Combine(Id, Type, Amount, Cost);
     }
 }
