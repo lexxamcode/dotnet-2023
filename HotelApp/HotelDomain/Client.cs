@@ -40,8 +40,8 @@ public class Client
             return false;
 
         return Id == param.Id &&
-               Passport == param.Passport && 
-               FirstName == param.FirstName && 
+               Passport == param.Passport &&
+               FirstName == param.FirstName &&
                SecondName == param.SecondName &&
                Surname == param.Surname &&
                BirthDate == param.BirthDate;

@@ -30,7 +30,7 @@ public class BookedRoom
     public DateTime DepartureDate { get => CheckInDate.AddDays(BookingPeriodInDays); }
 
     public BookedRoom() { }
-    public BookedRoom(Guid id,Room room, Client client, DateTime checkInDate, uint bookingPeriodInDays)
+    public BookedRoom(Guid id, Room room, Client client, DateTime checkInDate, uint bookingPeriodInDays)
     {
         Id = id;
         Room = room;

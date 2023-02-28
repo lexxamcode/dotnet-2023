@@ -215,7 +215,7 @@ public class HotelDomainTest
     public void FirstRequestTest()
     {
         var requestHotelList = (from hotel in CreateFilledHotelList()
-                               select hotel).ToList();
+                                select hotel).ToList();
 
         Assert.Equal("Sleepy Place", requestHotelList[0].Name);
         Assert.Equal("Voidburg", requestHotelList[1].City);
@@ -234,10 +234,10 @@ public class HotelDomainTest
         var hotelList = CreateFilledHotelList();
 
         var clients = (from hotel in hotelList
-                      where hotel.Name == "Sleepy Place"
-                      from client in hotel.Clients
-                      orderby client.SecondName
-                      select client).ToList();
+                       where hotel.Name == "Sleepy Place"
+                       from client in hotel.Clients
+                       orderby client.SecondName
+                       select client).ToList();
 
         Assert.Equal("Anantha", clients[0].SecondName);
         Assert.Equal("09 87 654321", clients[1].Passport);
@@ -256,8 +256,8 @@ public class HotelDomainTest
 
         // Sort hotelList by booked rooms count using LINQ
         var linqSortedHotelList = (from hotel in hotelList
-                                  orderby hotel.BookedRooms.Count descending
-                                  select hotel).ToList();
+                                   orderby hotel.BookedRooms.Count descending
+                                   select hotel).ToList();
 
         Assert.Equal("Chillzone", linqSortedHotelList[0].Name);       // "Chillzone" has 6 booked rooms
         Assert.Equal("Comfort Palace", linqSortedHotelList[1].Name);  // "Comfort" Palace has 3 booked rooms
@@ -281,16 +281,16 @@ public class HotelDomainTest
     public void FourthRequestTest()
     {
         var freeRooms = (from hotel in CreateFilledHotelList()
-                        where hotel.City == "Voidburg"
-                        from room in hotel.Rooms
-                        select new
-                        {
-                            Hotel = hotel.Name,
-                            Type = room.Type,
-                            Amount = room.Amount - (from bookedRoom in hotel.BookedRooms
-                                                    where bookedRoom.Room.Equals(room)
-                                                    select bookedRoom).Count()
-                        }).ToList();
+                         where hotel.City == "Voidburg"
+                         from room in hotel.Rooms
+                         select new
+                         {
+                             Hotel = hotel.Name,
+                             Type = room.Type,
+                             Amount = room.Amount - (from bookedRoom in hotel.BookedRooms
+                                                     where bookedRoom.Room.Equals(room)
+                                                     select bookedRoom).Count()
+                         }).ToList();
 
         Assert.Equal(5, freeRooms[0].Amount);         // hotelList[0] luxe
         Assert.Equal(98, freeRooms[1].Amount);        // hotelList[0] default
@@ -336,8 +336,8 @@ public class HotelDomainTest
 
         // from hotel select those clients who booked room with longest booking period
         var clientsWithLongestBookingPeriod = (from room in hotel.BookedRooms
-                                              orderby room.BookingPeriodInDays descending
-                                              select room.Client).ToList();
+                                               orderby room.BookingPeriodInDays descending
+                                               select room.Client).ToList();
 
         Assert.Equal("Dedova", clientsWithLongestBookingPeriod[0].SecondName);
         Assert.Equal("Ivanova", clientsWithLongestBookingPeriod[1].SecondName);
@@ -361,7 +361,7 @@ public class HotelDomainTest
         };
         // average cost = (35+30+10)/3 = 25 0000 
 
-        var secondHotel = new Hotel(Guid.NewGuid(),"test hotel 2", "test city", "test address");
+        var secondHotel = new Hotel(Guid.NewGuid(), "test hotel 2", "test city", "test address");
         secondHotel.Rooms = new List<Room>()
         {
             new Room(Guid.NewGuid(), "Luxe", 10, 20000),
@@ -373,12 +373,12 @@ public class HotelDomainTest
         var hotelList = new List<Hotel> { firstHotel, secondHotel };
 
         var prices = (from hotel in hotelList
-                     select new
-                     {
-                         Min = hotel.Rooms.Min(r => r.Cost),
-                         Max = hotel.Rooms.Max(r => r.Cost),
-                         Average = hotel.Rooms.Sum(r => r.Cost) / hotel.Rooms.Count()
-                     }).ToList();
+                      select new
+                      {
+                          Min = hotel.Rooms.Min(r => r.Cost),
+                          Max = hotel.Rooms.Max(r => r.Cost),
+                          Average = hotel.Rooms.Sum(r => r.Cost) / hotel.Rooms.Count()
+                      }).ToList();
 
         Assert.Equal((uint)10000, prices[0].Min);
         Assert.Equal((uint)35000, prices[0].Max);

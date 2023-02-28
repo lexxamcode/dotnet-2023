@@ -48,9 +48,9 @@ public class Hotel
         if (obj is not Hotel param)
             return false;
 
-        return Id == param.Id && Name == param.Name && 
-               City == param.City && Address == param.Address && 
-               Rooms.Equals(param.Rooms) && BookedRooms.Equals(param.BookedRooms) && 
+        return Id == param.Id && Name == param.Name &&
+               City == param.City && Address == param.Address &&
+               Rooms.Equals(param.Rooms) && BookedRooms.Equals(param.BookedRooms) &&
                Clients.Equals(param.Clients);
     }
 
