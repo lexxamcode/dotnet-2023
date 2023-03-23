@@ -6,9 +6,9 @@
 public class Hotel
 {
     /// <summary>
-    /// Id - guid typed value for storing Id of the client
+    /// Id - uint typed value for storing Id of the client
     /// </summary>
-    public Guid Id { get; set; } = Guid.Empty;
+    public uint Id { get; set; }
     /// <summary>
     /// Name - string value for name of the hotel
     /// </summary>
@@ -24,10 +24,9 @@ public class Hotel
 
     public List<Room> Rooms { get; set; } = new();
     public List<BookedRoom> BookedRooms { get; set; } = new();
-    public List<Client> Clients { get; set; } = new();
 
     public Hotel() { }
-    public Hotel(Guid id, string name, string city, string address)
+    public Hotel(uint id, string name, string city, string address)
     {
         Id = id;
         Name = name;
@@ -35,12 +34,11 @@ public class Hotel
         Address = address;
     }
 
-    public Hotel(Guid id, string name, string city, string address, List<Room> rooms, List<BookedRoom> bookedRooms, List<Client> clients)
+    public Hotel(uint id, string name, string city, string address, List<Room> rooms, List<BookedRoom> bookedRooms)
            : this(id, name, city, address)
     {
         Rooms = rooms;
         BookedRooms = bookedRooms;
-        Clients = clients;
     }
 
     public override bool Equals(object? obj)
@@ -48,14 +46,16 @@ public class Hotel
         if (obj is not Hotel param)
             return false;
 
-        return Id == param.Id && Name == param.Name &&
-               City == param.City && Address == param.Address &&
-               Rooms.Equals(param.Rooms) && BookedRooms.Equals(param.BookedRooms) &&
-               Clients.Equals(param.Clients);
+        return Id == param.Id
+            && Name == param.Name
+            && City == param.City
+            && Address == param.Address
+            && Rooms.Equals(param.Rooms)
+            && BookedRooms.Equals(param.BookedRooms);
     }
 
     public override int GetHashCode()
     {
-        return HashCode.Combine(Id, Name, City, Address, Rooms, BookedRooms, Clients);
+        return Id.GetHashCode();
     }
 }

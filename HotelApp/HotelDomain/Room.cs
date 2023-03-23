@@ -7,7 +7,7 @@ public class Room
     /// <summary>
     /// Id - guid typed value for storing Id of the room
     /// </summary>
-    public Guid Id { get; set; } = Guid.Empty;
+    public uint Id { get; set; }
     /// <summary>
     /// Type - string typed value representing a type of the room
     /// </summary>
@@ -15,14 +15,13 @@ public class Room
     /// <summary>
     /// Amount - uint value for storing an amount of rooms of this type
     /// </summary>
-    public uint Amount { get; set; } = uint.MinValue;
+    public uint Amount { get; set; }
     /// <summary>
     /// Cost - uint for storing a cost of the room
     /// </summary>
-    public uint Cost { get; set; } = uint.MinValue;
-
+    public uint Cost { get; set; }
     public Room() { }
-    public Room(Guid id, string type, uint amount, uint cost)
+    public Room(uint id, string type, uint amount, uint cost)
     {
         Id = id;
         Type = type;
@@ -38,6 +37,6 @@ public class Room
     }
     public override int GetHashCode()
     {
-        return HashCode.Combine(Id, Type, Amount, Cost);
+        return Id.GetHashCode();
     }
 }

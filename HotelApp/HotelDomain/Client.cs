@@ -5,9 +5,9 @@
 public class Client
 {
     /// <summary>
-    /// Id - guid typed value for storing Id of the client
+    /// Id - uint typed value for storing Id of the client
     /// </summary>
-    public Guid Id { get; set; } = Guid.Empty;
+    public uint Id { get; set; }
     /// <summary>
     /// Passport - a string representing passport number
     /// </summary>
@@ -24,7 +24,7 @@ public class Client
     public DateTime BirthDate { set; get; } = DateTime.MinValue;
 
     public Client() { }
-    public Client(Guid id, string passport, string firstName, string secondName, string surname, DateTime birthDate)
+    public Client(uint id, string passport, string firstName, string secondName, string surname, DateTime birthDate)
     {
         Id = id;
         Passport = passport;
@@ -49,6 +49,6 @@ public class Client
 
     public override int GetHashCode()
     {
-        return HashCode.Combine(Id, Passport, FirstName, SecondName, Surname, BirthDate);
+        return Id.GetHashCode();
     }
 }

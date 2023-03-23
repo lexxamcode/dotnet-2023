@@ -5,9 +5,9 @@
 public class BookedRoom
 {
     /// <summary>
-    /// Id - guid typed value for storing Id of the booked room
+    /// Id - uint typed value for storing Id of the booked room
     /// </summary>
-    public Guid Id { get; set; } = Guid.Empty;
+    public uint Id { get; set; }
     /// <summary>
     /// Room value represents a type of the booked room
     /// </summary>
@@ -23,14 +23,14 @@ public class BookedRoom
     /// <summary>
     /// BookingPeriodInDays double typed value representing an amount of days between check-in and departure
     /// </summary>
-    public uint BookingPeriodInDays { get; set; } = 0;
+    public uint BookingPeriodInDays { get; set; }
     /// <summary>
     /// DepartureDate - DateTime typed value representing a departure date
     /// </summary>
     public DateTime DepartureDate { get => CheckInDate.AddDays(BookingPeriodInDays); }
 
     public BookedRoom() { }
-    public BookedRoom(Guid id, Room room, Client client, DateTime checkInDate, uint bookingPeriodInDays)
+    public BookedRoom(uint id, Room room, Client client, DateTime checkInDate, uint bookingPeriodInDays)
     {
         Id = id;
         Room = room;
@@ -53,6 +53,6 @@ public class BookedRoom
 
     public override int GetHashCode()
     {
-        return HashCode.Combine(Id, Room, Client, CheckInDate, DepartureDate, BookingPeriodInDays);
+        return Id.GetHashCode();
     }
 }
