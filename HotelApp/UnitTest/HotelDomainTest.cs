@@ -36,6 +36,7 @@ public class HotelDomainTest
     [Fact]
     public void HotelClientsTest()
     {
+        // Sleepy Place has 2 clients - Charlie Scene and Maria Ivanova
         var hotelList = _hotels;
 
         var clients = (from hotel in hotelList
@@ -44,11 +45,8 @@ public class HotelDomainTest
                        orderby booking.Client.SecondName
                        select booking.Client).ToList();
 
-        Assert.Equal("Anantha", clients[0].SecondName);
-        Assert.Equal("09 87 654321", clients[1].Passport);
-        Assert.Equal(DateTime.Parse("11.12.2003"), clients[2].BirthDate);
-        Assert.Equal("Alexey", clients[3].FirstName);
-        Assert.Equal(string.Empty, clients[4].Surname);
+        Assert.Equal("Ivanova", clients[0].SecondName);
+        Assert.Equal("Scene", clients[1].SecondName);
     }
 
     /// <summary>
@@ -73,14 +71,11 @@ public class HotelDomainTest
 
     /// <summary>
     /// Output information about all available rooms at all hotels in one city as unit test
-    /// 
-    /// Each hotel in this test has 5 luxe rooms and 100 default rooms
-    ///
-    /// "Sleepy Place"       hotelList[0] has 2 booked default rooms                        => available: 5 luxe, 98 default
+    /// "Sleepy Place"       hotelList[0] has 2 booked default rooms                        => available: 10 luxe, 148 default
     /// "Comfort Palace"     hotelList[1] has 3 booked rooms: 1 luxe and 2 default rooms    => available: 4 luxe, 98 default
-    /// "Chillzone"          hotelList[2] has 6 booked rooms: 2 luxes and 4 default rooms   => available: 3 luxe, 96 default
-    /// "Cheap'n'Cool"       hotelList[3] has no booked rooms                               => available: 5 luxe, 100 default
-    /// "First Class"        hotelList[4] has 1 booked default room                         => available: 5 luxe, 99 default 
+    /// "Chillzone"          hotelList[2] has 6 booked rooms: 2 luxes and 4 default rooms   => available: 0 luxe, 16 default
+    /// "Cheap'n'Cool"       hotelList[3] has no booked rooms                               => available: 1 luxe, 25 default
+    /// "First Class"        hotelList[4] has 1 booked default room                         => available: 0 luxe, 9 default 
     /// </summary>
     [Fact]
     public void AvailableRooms()
@@ -97,21 +92,17 @@ public class HotelDomainTest
                                                      select bookedRoom).Count()
                          }).ToList();
 
-        Assert.Equal(5, freeRooms[0].Amount);         // hotelList[0] luxe
-        Assert.Equal(98, freeRooms[1].Amount);        // hotelList[0] default
-        Assert.Equal(2, freeRooms[2].Amount);         // hotelList[0] staff
+        Assert.Equal(10, freeRooms[0].Amount);         // hotelList[0] luxe
+        Assert.Equal(148, freeRooms[1].Amount);        // hotelList[0] default
 
-        Assert.Equal(4, freeRooms[3].Amount);         // hotelList[1] luxe
-        Assert.Equal(98, freeRooms[4].Amount);        // hotelList[1] default
-        Assert.Equal(2, freeRooms[5].Amount);         // hotelList[1] staff
+        Assert.Equal(4, freeRooms[2].Amount);         // hotelList[1] luxe
+        Assert.Equal(98, freeRooms[3].Amount);        // hotelList[1] default
 
-        Assert.Equal(3, freeRooms[6].Amount);         // hotelList[2] luxe
-        Assert.Equal(96, freeRooms[7].Amount);        // hotelList[2] default
-        Assert.Equal(2, freeRooms[8].Amount);         // hotelList[2] staff
+        Assert.Equal(0, freeRooms[4].Amount);         // hotelList[2] luxe
+        Assert.Equal(16, freeRooms[5].Amount);        // hotelList[2] default
 
-        Assert.Equal(5, freeRooms[9].Amount);         // hotelList[3] luxe
-        Assert.Equal(100, freeRooms[10].Amount);      // hotelList[3] default
-        Assert.Equal(2, freeRooms[11].Amount);        // hotelList[3] staff
+        Assert.Equal(1, freeRooms[6].Amount);         // hotelList[3] luxe
+        Assert.Equal(25, freeRooms[7].Amount);         // hotelList[3] default
     }
 
     /// <summary>
@@ -136,10 +127,16 @@ public class HotelDomainTest
     /// <summary>
     /// Output maximum, minimum and average price of room in each hotel as unit-test
     /// </summary>
-    [Fact]
-    public void HotelPrices()
+    [Theory]
+    [InlineData("Sleepy Place", 6000, 2000, 4000)]
+    [InlineData("Comfort Palace", 4500, 1000, 2750)]
+    [InlineData("Chillzone", 2000, 500, 1250)]
+    [InlineData("Cheap'n'Cool", 2500, 1000, 1750)]
+    [InlineData("First Class", 350, 350, 350)]
+    public void HotelPrices(string hotelName, uint max, uint min, uint average)
     {
         var prices = (from hotel in _hotels
+                      where hotel.Name == hotelName
                       select new
                       {
                           Min = hotel.Rooms.Min(r => r.Cost),
@@ -147,12 +144,8 @@ public class HotelDomainTest
                           Average = hotel.Rooms.Sum(r => r.Cost) / hotel.Rooms.Count()
                       }).ToList();
 
-        Assert.Equal((uint)10000, prices[0].Min);
-        Assert.Equal((uint)35000, prices[0].Max);
-        Assert.Equal(25000, prices[0].Average);
-
-        Assert.Equal((uint)10000, prices[1].Min);
-        Assert.Equal((uint)20000, prices[1].Max);
-        Assert.Equal(15000, prices[1].Average);
+        Assert.Equal(min, prices[0].Min);
+        Assert.Equal(max, prices[0].Max);
+        Assert.Equal(average, prices[0].Average);
     }
 }
