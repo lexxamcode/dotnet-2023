@@ -54,7 +54,7 @@ internal static class TestDataRepository
             new()
             {
                 new Room(7, "Luxe", 1, 2500),
-                new Room(8, "Defaut", 25, 1000)
+                new Room(8, "Default", 25, 1000)
             },
             // First Class rooms
             new()
@@ -107,7 +107,7 @@ internal static class TestDataRepository
             // All booked rooms in test hotel "Firt Class" - one room
             new()
             {
-                new Booking(12, roomList[4][1], clientList[0], DateTime.Parse("10.10.2022"), 10)
+                new Booking(12, roomList[4][0], clientList[0], DateTime.Parse("10.10.2022"), 10)
             }
         };
     }
@@ -120,8 +120,8 @@ internal static class TestDataRepository
             new Hotel(1, "Sleepy Place", "Voidburg", "Elea st. 1", roomList[0], bookingsList[0]),
             new Hotel(2, "Comfort Palace", "Voidburg", "Nocturne st. 2", roomList[1], bookingsList[1]),
             new Hotel(3, "Chillzone", "Voidburg", "Salzburg st. 3", roomList[2], bookingsList[2]),
-            new Hotel(4, "Cheap'n'Cool", "Voidburg", "Trauma st. 4", roomList[3], bookingsList[3]),
-            new Hotel(5, "First Class", "Nullvillage", "Toi st. 5", roomList[4], bookingsList[4])
+            new Hotel(4, "Cheap'n'Cool", "Voidburg", "Trauma st. 4", roomList[3], new()),
+            new Hotel(5, "First Class", "Nullvillage", "Toi st. 5", roomList[4], bookingsList[3])
         };
 
         return hotelList;

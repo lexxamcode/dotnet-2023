@@ -4,36 +4,45 @@ namespace UnitTest;
 
 public class HotelDomainTest
 {
+    private readonly List<Hotel> _hotels;
+    private readonly List<Client> _clients;
+
+    public HotelDomainTest()
+    {
+        _hotels = TestDataRepository.GetHotelList();
+        _clients = TestDataRepository.GetClientList();
+    }
+
     /// <summary>
     /// Output information about all hotels in database as unit test
     /// </summary>
     [Fact]
-    public void FirstRequestTest()
+    public void AllHotelsTest()
     {
-        var requestHotelList = (from hotel in CreateFilledHotelList()
+        var requestHotelList = (from hotel in _hotels
                                 select hotel).ToList();
 
         Assert.Equal("Sleepy Place", requestHotelList[0].Name);
         Assert.Equal("Voidburg", requestHotelList[1].City);
         Assert.Equal("Salzburg st. 3", requestHotelList[2].Address);
-        Assert.NotEmpty(requestHotelList[3].Clients);
-        Assert.NotEmpty(requestHotelList[4].Rooms);
-        Assert.NotEmpty(requestHotelList[4].Clients);
+        Assert.Equal("Default", requestHotelList[3].Rooms[1].Type);
+        Assert.Empty(requestHotelList[3].Bookings);
+        Assert.NotEmpty(requestHotelList[4].Bookings);
     }
 
     /// <summary>
     /// Output all information about hotel clients as unit test
     /// </summary>
     [Fact]
-    public void SecondRequestTest()
+    public void HotelClientsTest()
     {
-        var hotelList = CreateFilledHotelList();
+        var hotelList = _hotels;
 
         var clients = (from hotel in hotelList
                        where hotel.Name == "Sleepy Place"
-                       from client in hotel.Clients
-                       orderby client.SecondName
-                       select client).ToList();
+                       from booking in hotel.Bookings
+                       orderby booking.Client.SecondName
+                       select booking.Client).ToList();
 
         Assert.Equal("Anantha", clients[0].SecondName);
         Assert.Equal("09 87 654321", clients[1].Passport);
@@ -46,13 +55,13 @@ public class HotelDomainTest
     /// Top-5 most booked hotels as unit test
     /// </summary>
     [Fact]
-    public void ThirdRequestTest()
+    public void TopHotels()
     {
-        var hotelList = CreateFilledHotelList();
+        var hotelList = _hotels;
 
         // Sort hotelList by booked rooms count using LINQ
         var linqSortedHotelList = (from hotel in hotelList
-                                   orderby hotel.BookedRooms.Count descending
+                                   orderby hotel.Bookings.Count descending
                                    select hotel).ToList();
 
         Assert.Equal("Chillzone", linqSortedHotelList[0].Name);       // "Chillzone" has 6 booked rooms
@@ -74,16 +83,16 @@ public class HotelDomainTest
     /// "First Class"        hotelList[4] has 1 booked default room                         => available: 5 luxe, 99 default 
     /// </summary>
     [Fact]
-    public void FourthRequestTest()
+    public void AvailableRooms()
     {
-        var freeRooms = (from hotel in CreateFilledHotelList()
+        var freeRooms = (from hotel in _hotels
                          where hotel.City == "Voidburg"
                          from room in hotel.Rooms
                          select new
                          {
                              Hotel = hotel.Name,
                              Type = room.Type,
-                             Amount = room.Amount - (from bookedRoom in hotel.BookedRooms
+                             Amount = room.Amount - (from bookedRoom in hotel.Bookings
                                                      where bookedRoom.Room.Equals(room)
                                                      select bookedRoom).Count()
                          }).ToList();
@@ -109,66 +118,28 @@ public class HotelDomainTest
     /// Output information about clients who booked rooms for the highest amount of days - as unit test
     /// </summary>
     [Fact]
-    public void FifthRequestTest()
+    public void LongestBookingClients()
     {
-        var hotel = new Hotel(Guid.NewGuid(), "test hotel", "test city", "test address");
-        hotel.Clients = CreateClientsList();
-        hotel.Rooms = CreateDefaultRooms();
-
-        hotel.BookedRooms = new List<BookedRoom>()
-        {
-            // Charlie Scene - 2 days
-            new BookedRoom(Guid.NewGuid(), hotel.Rooms[0], hotel.Clients[0], DateTime.Parse("14.02.2023"), 2),
-            // Dedova Mama Papovna - 6 days
-            new BookedRoom(Guid.NewGuid(), hotel.Rooms[1], hotel.Clients[1], DateTime.Parse("15.02.2023"), 6),
-            // Kotovich Alexey Nikolaevich - 1 day
-            new BookedRoom(Guid.NewGuid(), hotel.Rooms[1], hotel.Clients[2], DateTime.Parse("16.02.2023"), 1),
-            // Ivanova Maria Ivanovna - 5 days
-            new BookedRoom(Guid.NewGuid(), hotel.Rooms[1], hotel.Clients[3], DateTime.Parse("16.02.2023"), 5),
-            // Miroslav Anantha - 3 days
-            new BookedRoom(Guid.NewGuid(), hotel.Rooms[1], hotel.Clients[4], DateTime.Parse("21.02.2023"), 3)
-
-        };
-
         // from hotel select those clients who booked room with longest booking period
-        var clientsWithLongestBookingPeriod = (from room in hotel.BookedRooms
-                                               orderby room.BookingPeriodInDays descending
-                                               select room.Client).ToList();
+        var clientsWithLongestBookingPeriod = (from hotel in _hotels
+                                               from booking in hotel.Bookings
+                                               orderby booking.BookingPeriodInDays descending
+                                               select booking.Client).Distinct().ToList();
 
-        Assert.Equal("Dedova", clientsWithLongestBookingPeriod[0].SecondName);
-        Assert.Equal("Ivanova", clientsWithLongestBookingPeriod[1].SecondName);
-        Assert.Equal("Anantha", clientsWithLongestBookingPeriod[2].SecondName);
-        Assert.Equal("Scene", clientsWithLongestBookingPeriod[3].SecondName);
-        Assert.Equal("Kotovich", clientsWithLongestBookingPeriod[4].SecondName);
+        Assert.Equal("Scene", clientsWithLongestBookingPeriod[0].SecondName);       // Top-1 - Charile Scene - 8 days
+        Assert.Equal("Kotovich", clientsWithLongestBookingPeriod[1].SecondName);    // Top-2 - Alexey Kotovich - 7 days
+        Assert.Equal("Ivanova", clientsWithLongestBookingPeriod[2].SecondName);     // Top-3 - Maria Ivanova - 6 days
+        Assert.Equal("Anantha", clientsWithLongestBookingPeriod[3].SecondName);     // Top-4 - Miroslav Anantha - 5 days
+        Assert.Equal("Dedova", clientsWithLongestBookingPeriod[4].SecondName);      // Top-5 - Mama Dedova - 4 days
     }
 
     /// <summary>
     /// Output maximum, minimum and average price of room in each hotel as unit-test
     /// </summary>
     [Fact]
-    public void SixthRequestTest()
+    public void HotelPrices()
     {
-        var firstHotel = new Hotel(Guid.NewGuid(), "test hotel 1", "test city", "test address");
-        firstHotel.Rooms = new List<Room>()
-        {
-            new Room(Guid.NewGuid(), "Luxe", 5, 35000),
-            new Room(Guid.NewGuid(), "High-class", 30, 30000),
-            new Room(Guid.NewGuid(), "Default", 100, 10000)
-        };
-        // average cost = (35+30+10)/3 = 25 0000 
-
-        var secondHotel = new Hotel(Guid.NewGuid(), "test hotel 2", "test city", "test address");
-        secondHotel.Rooms = new List<Room>()
-        {
-            new Room(Guid.NewGuid(), "Luxe", 10, 20000),
-            new Room(Guid.NewGuid(), "High-class", 20, 15000),
-            new Room(Guid.NewGuid(), "Default", 40, 10000)
-        };
-        // average cost = (20+15+10)/3 = 15 0000
-
-        var hotelList = new List<Hotel> { firstHotel, secondHotel };
-
-        var prices = (from hotel in hotelList
+        var prices = (from hotel in _hotels
                       select new
                       {
                           Min = hotel.Rooms.Min(r => r.Cost),

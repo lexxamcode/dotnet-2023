@@ -23,7 +23,7 @@ public class Hotel
     public string Address { get; set; } = string.Empty;
 
     public List<Room> Rooms { get; set; } = new();
-    public List<Booking> BookedRooms { get; set; } = new();
+    public List<Booking> Bookings { get; set; } = new();
 
     public Hotel() { }
     public Hotel(uint id, string name, string city, string address)
@@ -34,11 +34,11 @@ public class Hotel
         Address = address;
     }
 
-    public Hotel(uint id, string name, string city, string address, List<Room> rooms, List<Booking> bookedRooms)
+    public Hotel(uint id, string name, string city, string address, List<Room> rooms, List<Booking> bookings)
            : this(id, name, city, address)
     {
         Rooms = rooms;
-        BookedRooms = bookedRooms;
+        Bookings = bookings;
     }
 
     public override bool Equals(object? obj)
@@ -51,7 +51,7 @@ public class Hotel
             && City == param.City
             && Address == param.Address
             && Rooms.Equals(param.Rooms)
-            && BookedRooms.Equals(param.BookedRooms);
+            && Bookings.Equals(param.Bookings);
     }
 
     public override int GetHashCode()
