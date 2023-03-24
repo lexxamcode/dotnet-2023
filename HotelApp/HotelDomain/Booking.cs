@@ -2,7 +2,7 @@
 /// <summary>
 /// BookedRoomType describes booked room in hotel
 /// </summary>
-public class BookedRoom
+public class Booking
 {
     /// <summary>
     /// Id - uint typed value for storing Id of the booked room
@@ -29,8 +29,8 @@ public class BookedRoom
     /// </summary>
     public DateTime DepartureDate { get => CheckInDate.AddDays(BookingPeriodInDays); }
 
-    public BookedRoom() { }
-    public BookedRoom(uint id, Room room, Client client, DateTime checkInDate, uint bookingPeriodInDays)
+    public Booking() { }
+    public Booking(uint id, Room room, Client client, DateTime checkInDate, uint bookingPeriodInDays)
     {
         Id = id;
         Room = room;
@@ -41,7 +41,7 @@ public class BookedRoom
 
     public override bool Equals(object? obj)
     {
-        if (obj is not BookedRoom param)
+        if (obj is not Booking param)
             return false;
 
         return Id == param.Id &&

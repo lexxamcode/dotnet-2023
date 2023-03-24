@@ -23,7 +23,7 @@ public class Hotel
     public string Address { get; set; } = string.Empty;
 
     public List<Room> Rooms { get; set; } = new();
-    public List<BookedRoom> BookedRooms { get; set; } = new();
+    public List<Booking> BookedRooms { get; set; } = new();
 
     public Hotel() { }
     public Hotel(uint id, string name, string city, string address)
@@ -34,7 +34,7 @@ public class Hotel
         Address = address;
     }
 
-    public Hotel(uint id, string name, string city, string address, List<Room> rooms, List<BookedRoom> bookedRooms)
+    public Hotel(uint id, string name, string city, string address, List<Room> rooms, List<Booking> bookedRooms)
            : this(id, name, city, address)
     {
         Rooms = rooms;
