@@ -5,12 +5,10 @@ namespace UnitTest;
 public class HotelDomainTest
 {
     private readonly List<Hotel> _hotels;
-    private readonly List<Client> _clients;
 
     public HotelDomainTest()
     {
         _hotels = TestDataRepository.GetHotelList();
-        _clients = TestDataRepository.GetClientList();
     }
 
     /// <summary>
