@@ -2,13 +2,13 @@ using HotelDomain;
 
 namespace UnitTest;
 
-public class HotelDomainTest
+public class HotelDomainTest: IClassFixture<HotelDomainFixture>
 {
-    private readonly List<Hotel> _hotels;
+    private readonly HotelDomainFixture _hotelFixture;
 
-    public HotelDomainTest()
+    public HotelDomainTest(HotelDomainFixture hotelFixture)
     {
-        _hotels = TestDataRepository.GetHotelList();
+        _hotelFixture = hotelFixture;
     }
 
     /// <summary>
@@ -17,7 +17,7 @@ public class HotelDomainTest
     [Fact]
     public void AllHotelsTest()
     {
-        var requestHotelList = (from hotel in _hotels
+        var requestHotelList = (from hotel in _hotelFixture.Hotels
                                 select hotel).ToList();
 
         Assert.Equal("Sleepy Place", requestHotelList[0].Name);
@@ -35,9 +35,7 @@ public class HotelDomainTest
     public void HotelClientsTest()
     {
         // Sleepy Place has 2 clients - Charlie Scene and Maria Ivanova
-        var hotelList = _hotels;
-
-        var clients = (from hotel in hotelList
+        var clients = (from hotel in _hotelFixture.Hotels
                        where hotel.Name == "Sleepy Place"
                        from booking in hotel.Bookings
                        orderby booking.Client.SecondName
@@ -53,10 +51,8 @@ public class HotelDomainTest
     [Fact]
     public void TopHotels()
     {
-        var hotelList = _hotels;
-
         // Sort hotelList by booked rooms count using LINQ
-        var linqSortedHotelList = (from hotel in hotelList
+        var linqSortedHotelList = (from hotel in _hotelFixture.Hotels
                                    orderby hotel.Bookings.Count descending
                                    select hotel).ToList();
 
@@ -78,7 +74,7 @@ public class HotelDomainTest
     [Fact]
     public void AvailableRooms()
     {
-        var freeRooms = (from hotel in _hotels
+        var freeRooms = (from hotel in _hotelFixture.Hotels
                          where hotel.City == "Voidburg"
                          from room in hotel.Rooms
                          select new
@@ -110,7 +106,7 @@ public class HotelDomainTest
     public void LongestBookingClients()
     {
         // from hotel select those clients who booked room with longest booking period
-        var clientsWithLongestBookingPeriod = (from hotel in _hotels
+        var clientsWithLongestBookingPeriod = (from hotel in _hotelFixture.Hotels
                                                from booking in hotel.Bookings
                                                orderby booking.BookingPeriodInDays descending
                                                select booking.Client).Distinct().ToList();
@@ -133,7 +129,7 @@ public class HotelDomainTest
     [InlineData("First Class", 350, 350, 350)]
     public void HotelPrices(string hotelName, uint max, uint min, uint average)
     {
-        var prices = (from hotel in _hotels
+        var prices = (from hotel in _hotelFixture.Hotels
                       where hotel.Name == hotelName
                       select new
                       {
