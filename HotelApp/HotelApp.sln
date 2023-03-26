@@ -3,9 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.3.32901.215
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HotelDomain", "HotelDomain\HotelDomain.csproj", "{BFE0C634-9597-4869-9643-F575D666E6F1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HotelDomain", "HotelDomain\HotelDomain.csproj", "{BFE0C634-9597-4869-9643-F575D666E6F1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTest", "UnitTest\UnitTest.csproj", "{FF91C7D2-DB43-4F12-9BB6-07028BE3FDD5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UnitTest", "UnitTest\UnitTest.csproj", "{FF91C7D2-DB43-4F12-9BB6-07028BE3FDD5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HotelAppServer", "HotelAppServer\HotelAppServer.csproj", "{3CAAD7B4-0D5C-4148-B322-703ED3148461}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{FF91C7D2-DB43-4F12-9BB6-07028BE3FDD5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FF91C7D2-DB43-4F12-9BB6-07028BE3FDD5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FF91C7D2-DB43-4F12-9BB6-07028BE3FDD5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3CAAD7B4-0D5C-4148-B322-703ED3148461}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3CAAD7B4-0D5C-4148-B322-703ED3148461}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3CAAD7B4-0D5C-4148-B322-703ED3148461}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3CAAD7B4-0D5C-4148-B322-703ED3148461}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

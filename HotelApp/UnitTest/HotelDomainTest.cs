@@ -38,11 +38,11 @@ public class HotelDomainTest: IClassFixture<HotelDomainFixture>
         var clients = (from hotel in _hotelFixture.Hotels
                        where hotel.Name == "Sleepy Place"
                        from booking in hotel.Bookings
-                       orderby booking.Client.SecondName
+                       orderby booking.Client.LastName
                        select booking.Client).ToList();
 
-        Assert.Equal("Ivanova", clients[0].SecondName);
-        Assert.Equal("Scene", clients[1].SecondName);
+        Assert.Equal("Ivanova", clients[0].LastName);
+        Assert.Equal("Scene", clients[1].LastName);
     }
 
     /// <summary>
@@ -111,11 +111,11 @@ public class HotelDomainTest: IClassFixture<HotelDomainFixture>
                                                orderby booking.BookingPeriodInDays descending
                                                select booking.Client).Distinct().ToList();
 
-        Assert.Equal("Scene", clientsWithLongestBookingPeriod[0].SecondName);       // Top-1 - Charile Scene - 8 days
-        Assert.Equal("Kotovich", clientsWithLongestBookingPeriod[1].SecondName);    // Top-2 - Alexey Kotovich - 7 days
-        Assert.Equal("Ivanova", clientsWithLongestBookingPeriod[2].SecondName);     // Top-3 - Maria Ivanova - 6 days
-        Assert.Equal("Anantha", clientsWithLongestBookingPeriod[3].SecondName);     // Top-4 - Miroslav Anantha - 5 days
-        Assert.Equal("Dedova", clientsWithLongestBookingPeriod[4].SecondName);      // Top-5 - Mama Dedova - 4 days
+        Assert.Equal("Scene", clientsWithLongestBookingPeriod[0].LastName);       // Top-1 - Charile Scene - 8 days
+        Assert.Equal("Kotovich", clientsWithLongestBookingPeriod[1].LastName);    // Top-2 - Alexey Kotovich - 7 days
+        Assert.Equal("Ivanova", clientsWithLongestBookingPeriod[2].LastName);     // Top-3 - Maria Ivanova - 6 days
+        Assert.Equal("Anantha", clientsWithLongestBookingPeriod[3].LastName);     // Top-4 - Miroslav Anantha - 5 days
+        Assert.Equal("Dedova", clientsWithLongestBookingPeriod[4].LastName);      // Top-5 - Mama Dedova - 4 days
     }
 
     /// <summary>

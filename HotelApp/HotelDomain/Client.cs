@@ -13,10 +13,10 @@ public class Client
     /// </summary>
     public string Passport { set; get; } = string.Empty;
     /// <summary>
-    /// FirstName, SecondName, SurName - a string for name, second_name and surname optionally
+    /// FirstName, LastName, LastName - a string for name, last name and surname optionally
     /// </summary>  
     public string FirstName { set; get; } = string.Empty;
-    public string SecondName { set; get; } = string.Empty;
+    public string LastName { set; get; } = string.Empty;
     public string Surname { set; get; } = string.Empty;
     /// <summary>
     /// BirthDate - DateTime typed value for storing birth date of person
@@ -24,12 +24,12 @@ public class Client
     public DateTime BirthDate { set; get; } = DateTime.MinValue;
 
     public Client() { }
-    public Client(uint id, string passport, string firstName, string secondName, string surname, DateTime birthDate)
+    public Client(uint id, string passport, string firstName, string lastName, string surname, DateTime birthDate)
     {
         Id = id;
         Passport = passport;
         FirstName = firstName;
-        SecondName = secondName;
+        LastName = lastName;
         Surname = surname;
         BirthDate = birthDate;
     }
@@ -42,7 +42,7 @@ public class Client
         return Id == param.Id &&
                Passport == param.Passport &&
                FirstName == param.FirstName &&
-               SecondName == param.SecondName &&
+               LastName == param.LastName &&
                Surname == param.Surname &&
                BirthDate == param.BirthDate;
     }
