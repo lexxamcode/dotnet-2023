@@ -28,8 +28,18 @@ public class Booking
     /// DepartureDate - DateTime typed value representing a departure date
     /// </summary>
     public DateTime DepartureDate { get => CheckInDate.AddDays(BookingPeriodInDays); }
-
+    /// <summary>
+    /// Default constructor
+    /// </summary>
     public Booking() { }
+    /// <summary>
+    /// Constructor with parameters
+    /// </summary>
+    /// <param name="id"></param>
+    /// <param name="room"></param>
+    /// <param name="client"></param>
+    /// <param name="checkInDate"></param>
+    /// <param name="bookingPeriodInDays"></param>
     public Booking(uint id, Room room, Client client, DateTime checkInDate, uint bookingPeriodInDays)
     {
         Id = id;
@@ -38,7 +48,11 @@ public class Booking
         CheckInDate = checkInDate;
         BookingPeriodInDays = bookingPeriodInDays;
     }
-
+    /// <summary>
+    /// Equals override
+    /// </summary>
+    /// <param name="obj"></param>
+    /// <returns>bool value representing are objects equal or not</returns>
     public override bool Equals(object? obj)
     {
         if (obj is not Booking param)
@@ -50,7 +64,10 @@ public class Booking
                DepartureDate == param.DepartureDate &&
                BookingPeriodInDays == param.BookingPeriodInDays;
     }
-
+    /// <summary>
+    /// GetHashCode override
+    /// </summary>
+    /// <returns>Hash code of id</returns>
     public override int GetHashCode()
     {
         return Id.GetHashCode();

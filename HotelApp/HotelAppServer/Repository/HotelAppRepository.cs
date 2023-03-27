@@ -2,6 +2,9 @@
 
 namespace HotelAppServer.Repository;
 
+/// <summary>
+/// Data repository containing Hotels, Rooms, Clients and Bookings
+/// </summary>
 public class HotelAppRepository : IHotelAppRepository
 {
     private readonly List<Client> _clients;
@@ -9,6 +12,9 @@ public class HotelAppRepository : IHotelAppRepository
     private readonly List<Booking> _bookings;
     private readonly List<Hotel> _hotels;
 
+    /// <summary>
+    /// Constructor that sets all the data
+    /// </summary>
     public HotelAppRepository()
     {
         _clients = new()
