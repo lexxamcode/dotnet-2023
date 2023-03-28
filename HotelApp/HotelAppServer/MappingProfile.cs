@@ -15,5 +15,8 @@ public class MappingProfile : Profile
     {
         CreateMap<Client, ClientPostDto>();
         CreateMap<ClientPostDto, Client>();
+
+        CreateMap<Room, RoomPostDto>();
+        CreateMap<RoomPostDto, Room>();
     }
 }

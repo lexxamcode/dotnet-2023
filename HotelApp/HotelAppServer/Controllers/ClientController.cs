@@ -61,16 +61,16 @@ public class ClientController : ControllerBase
     /// <summary>
     /// Adds a client to repository
     /// </summary>
-    /// <param name="client"></param>
+    /// <param name="clientToPost"></param>
     [HttpPost]
-    public void Post([FromBody] ClientPostDto client)
+    public void Post([FromBody] ClientPostDto clientToPost)
     {
         _logger.LogInformation("POST client {FirstName}, {LastName}, {Surname}, {Passport}",
-                               client.FirstName,
-                               client.LastName,
-                               client.Surname,
-                               client.Passport);
-        _hotelAppRepository.Clients.Add(_mapper.Map<Client>(client));
+                               clientToPost.FirstName,
+                               clientToPost.LastName,
+                               clientToPost.Surname,
+                               clientToPost.Passport);
+        _hotelAppRepository.Clients.Add(_mapper.Map<Client>(clientToPost));
     }
 
     /// <summary>
