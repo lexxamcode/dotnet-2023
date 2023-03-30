@@ -18,5 +18,10 @@ public class MappingProfile : Profile
 
         CreateMap<Room, RoomPostDto>();
         CreateMap<RoomPostDto, Room>();
+
+        CreateMap<Booking, BookingGetDto>();
+        CreateMap<BookingGetDto, Booking>();
+        CreateMap<Booking, BookingPostDto>();
+        CreateMap<BookingPostDto, Booking>();
     }
 }

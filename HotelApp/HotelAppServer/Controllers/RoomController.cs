@@ -90,7 +90,7 @@ public class RoomController : ControllerBase
             return NotFound();
         }
 
-        room = _mapper.Map<Room>(roomToPut);
+        room = _mapper.Map(roomToPut, room);
         return Ok();
     }
 
