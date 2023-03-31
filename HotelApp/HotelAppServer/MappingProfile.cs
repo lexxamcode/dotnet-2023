@@ -13,15 +13,14 @@ public class MappingProfile : Profile
     /// </summary>
     public MappingProfile()
     {
-        CreateMap<Client, ClientPostDto>();
-        CreateMap<ClientPostDto, Client>();
+        CreateMap<Client, ClientPostDto>().ReverseMap();
 
-        CreateMap<Room, RoomPostDto>();
-        CreateMap<RoomPostDto, Room>();
+        CreateMap<Room, RoomPostDto>().ReverseMap();
 
-        CreateMap<Booking, BookingGetDto>();
-        CreateMap<BookingGetDto, Booking>();
-        CreateMap<Booking, BookingPostDto>();
-        CreateMap<BookingPostDto, Booking>();
+        CreateMap<Booking, BookingGetDto>().ReverseMap();
+        CreateMap<Booking, BookingPostDto>().ReverseMap();
+
+        CreateMap<Hotel, HotelGetDto>().ReverseMap();
+        CreateMap<Hotel, HotelPostDto>().ReverseMap();
     }
 }

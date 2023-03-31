@@ -29,7 +29,7 @@ public class RoomController : ControllerBase
         _mapper = mapper;
         _hotelAppRepository = hotelAppRepository;
     }
-    
+
     /// <summary>
     /// Returns list of all rooms
     /// </summary>
@@ -81,7 +81,7 @@ public class RoomController : ControllerBase
     public IActionResult Put(int id, [FromBody] RoomPostDto roomToPut)
     {
         _logger.LogInformation("PUT room with id={id}: {Type}, {Amount}, {Cost}", id, roomToPut.Type, roomToPut.Amount, roomToPut.Cost);
-        
+
         var room = _hotelAppRepository.Rooms.FirstOrDefault(room => room.Id == id);
 
         if (room == null)
@@ -104,7 +104,7 @@ public class RoomController : ControllerBase
     {
         _logger.LogInformation("DELETE room with id={Id}", id);
 
-        var room = _hotelAppRepository.Rooms.FirstOrDefault(room=>room.Id == id);
+        var room = _hotelAppRepository.Rooms.FirstOrDefault(room => room.Id == id);
 
         if (room == null)
         {

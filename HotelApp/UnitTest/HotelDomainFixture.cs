@@ -1,5 +1,4 @@
 ﻿using HotelDomain;
-using System.Reflection.Metadata.Ecma335;
 
 namespace UnitTest;
 
@@ -85,7 +84,7 @@ public class HotelDomainFixture
     /// Test values of Client class
     /// </summary>
     /// <returns>List of test clients</returns>
-    public List<Client> Clients => _clients; 
+    public List<Client> Clients => _clients;
 
     /// <summary>
     /// Initializes rooms for each hotel

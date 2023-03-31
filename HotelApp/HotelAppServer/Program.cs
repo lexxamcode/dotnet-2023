@@ -1,6 +1,6 @@
-using HotelAppServer.Repository;
 using AutoMapper;
 using HotelAppServer;
+using HotelAppServer.Repository;
 using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);

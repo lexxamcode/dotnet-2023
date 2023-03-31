@@ -1,8 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using HotelDomain;
+﻿using AutoMapper;
 using HotelAppServer.Dto;
 using HotelAppServer.Repository;
-using AutoMapper;
+using HotelDomain;
+using Microsoft.AspNetCore.Mvc;
 
 namespace HotelAppServer.Controllers;
 

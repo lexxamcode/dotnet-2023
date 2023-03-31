@@ -1,8 +1,6 @@
-using HotelDomain;
-
 namespace UnitTest;
 
-public class HotelDomainTest: IClassFixture<HotelDomainFixture>
+public class HotelDomainTest : IClassFixture<HotelDomainFixture>
 {
     private readonly HotelDomainFixture _hotelFixture;
 

@@ -1,6 +1,4 @@
-﻿using HotelDomain;
-
-namespace HotelAppServer.Dto;
+﻿namespace HotelAppServer.Dto;
 
 /// <summary>
 /// BookingPostDto for posting Booking type
