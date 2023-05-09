@@ -1,9 +1,15 @@
 using AutoMapper;
 using HotelAppServer;
 using HotelAppServer.Repository;
+using HotelDomain;
+using Microsoft.EntityFrameworkCore;
 using System.Reflection;
-
+    
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddDbContext<HotelDomainDbContext>(options =>
+    options.UseNpgsql(builder.Configuration.GetConnectionString("HotelAppDataBase")!)
+);
 
 var mapperConfig = new MapperConfiguration(config => config.AddProfile(new MappingProfile()));
 var mapper = mapperConfig.CreateMapper();
