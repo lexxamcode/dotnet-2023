@@ -1,33 +1,43 @@
-﻿namespace HotelDomain;
+﻿using System.ComponentModel.DataAnnotations.Schema;
+using System.Runtime.CompilerServices;
+
+namespace HotelDomain;
 
 /// <summary>
 /// Hotel is a type describing a hotel
 /// </summary>
+[Table("hotel")]
 public class Hotel
 {
     /// <summary>
     /// Id - uint typed value for storing Id of the client
     /// </summary>
+    [Column("id")]
     public uint Id { get; set; }
     /// <summary>
     /// Name - string value for name of the hotel
     /// </summary>
+    [Column("name")]
     public string Name { get; set; } = string.Empty;
     /// <summary>
     /// City - string value for city name of the hotel
     /// </summary>
+    [Column("city")]
     public string City { get; set; } = string.Empty;
     /// <summary>
     /// Address - string value for address where the hotel is
     /// </summary>
+    [Column("address")]
     public string Address { get; set; } = string.Empty;
     /// <summary>
     /// Rooms - list of room of the hotel
     /// </summary>
+    [ForeignKey("hotel_id")]
     public List<Room> Rooms { get; set; } = new();
     /// <summary>
     /// Bookings - list of bookings of the hotel
     /// </summary>
+    [ForeignKey("hotel_id")]
     public List<Booking> Bookings { get; set; } = new();
     /// <summary>
     /// Default constructor

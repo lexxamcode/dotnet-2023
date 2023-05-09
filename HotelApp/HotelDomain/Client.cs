@@ -1,32 +1,41 @@
-﻿namespace HotelDomain;
+﻿using System.ComponentModel.DataAnnotations.Schema;
+
+namespace HotelDomain;
 /// <summary>
 /// ClientType describes a person registered at hotel
 /// </summary>
+[Table("client")]
 public class Client
 {
     /// <summary>
     /// Id - uint typed value for storing Id of the client
     /// </summary>
+    [Column("id")]
     public uint Id { get; set; }
     /// <summary>
     /// Passport - a string representing passport number
     /// </summary>
+    [Column("passport")]
     public string Passport { set; get; } = string.Empty;
     /// <summary>
     /// FirstName - a string representing person's name
     /// </summary>  
+    [Column("first_name")]
     public string FirstName { set; get; } = string.Empty;
     /// <summary>
     /// LastName - a string representing person's last name
     /// </summary>
+    [Column("last_name")]
     public string LastName { set; get; } = string.Empty;
     /// <summary>
     /// Surname - a string representing person's surname
     /// </summary>
+    [Column("surname")]
     public string Surname { set; get; } = string.Empty;
     /// <summary>
     /// BirthDate - DateTime typed value for storing birth date of person
     /// </summary>
+    [Column("birth_date")]
     public DateTime BirthDate { set; get; } = DateTime.MinValue;
     /// <summary>
     /// Default constructor
