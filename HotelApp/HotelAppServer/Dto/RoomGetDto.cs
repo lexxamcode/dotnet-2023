@@ -1,6 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
-
-namespace HotelAppServer.Dto;
+﻿namespace HotelAppServer.Dto;
 
 public class RoomGetDto
 {

@@ -1,8 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using HotelDomain;
-using AutoMapper;
+﻿using AutoMapper;
 using HotelAppServer.Dto;
+using HotelDomain;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace HotelAppServer.Controllers;
 
@@ -37,10 +37,10 @@ public class ClientsController : ControllerBase
     [HttpGet]
     public async Task<ActionResult<List<ClientGetDto>>> GetClients()
     {
-      if (_context.Clients == null)
-      {
-          return NotFound();
-      }
+        if (_context.Clients == null)
+        {
+            return NotFound();
+        }
         return await _mapper.ProjectTo<ClientGetDto>(_context.Clients).ToListAsync();
     }
 
@@ -52,10 +52,10 @@ public class ClientsController : ControllerBase
     [HttpGet("{id}")]
     public async Task<ActionResult<ClientGetDto>> GetClient(uint id)
     {
-      if (_context.Clients == null)
-      {
-          return NotFound();
-      }
+        if (_context.Clients == null)
+        {
+            return NotFound();
+        }
         var client = await _context.Clients.FindAsync(id);
 
         if (client == null)
@@ -75,8 +75,8 @@ public class ClientsController : ControllerBase
     [HttpPut("{id}")]
     public async Task<IActionResult> PutClient(uint id, [FromBody] ClientPostDto clientToPut)
     {
-        if (_context.Clients == null) 
-            return NotFound(); 
+        if (_context.Clients == null)
+            return NotFound();
 
         var client = await _context.Clients.FindAsync(id);
 
@@ -98,10 +98,10 @@ public class ClientsController : ControllerBase
     [ProducesResponseType(201)]
     public async Task<ActionResult<Client>> PostClient(ClientPostDto clientToPost)
     {
-      if (_context.Clients == null)
-      {
-          return Problem("Entity set 'HotelDomainDbContext.Clients'  is null.");
-      }
+        if (_context.Clients == null)
+        {
+            return Problem("Entity set 'HotelDomainDbContext.Clients'  is null.");
+        }
 
         var mappedClient = _mapper.Map<Client>(clientToPost);
         _context.Clients.Add(mappedClient);

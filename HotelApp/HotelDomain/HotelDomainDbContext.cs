@@ -1,19 +1,14 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace HotelDomain;
-public class HotelDomainDbContext: DbContext
+public class HotelDomainDbContext : DbContext
 {
     public DbSet<Client> Clients { get; set; }
     public DbSet<Hotel> Hotels { get; set; }
     public DbSet<Room> Rooms { get; set; }
     public DbSet<Booking> Bookings { get; set; }
-       
-    public HotelDomainDbContext(DbContextOptions options): base(options)
+
+    public HotelDomainDbContext(DbContextOptions options) : base(options)
     {
         Database.EnsureCreated();
     }
@@ -122,7 +117,7 @@ public class HotelDomainDbContext: DbContext
         hotels[3].Rooms?.Add(rooms[6]);
         hotels[3].Rooms?.Add(rooms[7]);
         hotels[4].Rooms?.Add(rooms[8]);
-            
+
         modelBuilder.Entity<Client>().HasData(clients);
         modelBuilder.Entity<Hotel>().HasData(hotels);
         modelBuilder.Entity<Room>().HasData(rooms);

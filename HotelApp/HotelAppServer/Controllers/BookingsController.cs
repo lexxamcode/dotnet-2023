@@ -1,14 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
+﻿using AutoMapper;
+using HotelAppServer.Dto;
+using HotelDomain;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using HotelDomain;
-using AutoMapper;
-using Microsoft.Extensions.Logging;
-using HotelAppServer.Dto;
 
 namespace HotelAppServer.Controllers;
 
@@ -43,10 +37,10 @@ public class BookingsController : ControllerBase
     [HttpGet]
     public async Task<ActionResult<List<BookingGetDto>>> GetBookings()
     {
-      if (_context.Bookings == null)
-      {
-          return NotFound();
-      }
+        if (_context.Bookings == null)
+        {
+            return NotFound();
+        }
         return await _mapper.ProjectTo<BookingGetDto>(_context.Bookings).ToListAsync();
     }
 
@@ -58,10 +52,10 @@ public class BookingsController : ControllerBase
     [HttpGet("{id}")]
     public async Task<ActionResult<BookingGetDto>> GetBooking(uint id)
     {
-      if (_context.Bookings == null)
-      {
-          return NotFound();
-      }
+        if (_context.Bookings == null)
+        {
+            return NotFound();
+        }
         var booking = await _context.Bookings.FindAsync(id);
 
         if (booking == null)

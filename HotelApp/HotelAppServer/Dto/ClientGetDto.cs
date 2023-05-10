@@ -1,6 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
-
-namespace HotelAppServer.Dto;
+﻿namespace HotelAppServer.Dto;
 
 /// <summary>
 /// Client class without bookings list

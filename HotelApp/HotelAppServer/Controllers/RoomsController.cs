@@ -1,8 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using HotelDomain;
-using AutoMapper;
+﻿using AutoMapper;
 using HotelAppServer.Dto;
+using HotelDomain;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace HotelAppServer.Controllers;
 
@@ -37,10 +37,10 @@ public class RoomsController : ControllerBase
     [HttpGet]
     public async Task<ActionResult<List<RoomGetDto>>> GetRooms()
     {
-      if (_context.Rooms == null)
-      {
-          return NotFound();
-      }
+        if (_context.Rooms == null)
+        {
+            return NotFound();
+        }
         return await _mapper.ProjectTo<RoomGetDto>(_context.Rooms).ToListAsync();
     }
 
@@ -52,10 +52,10 @@ public class RoomsController : ControllerBase
     [HttpGet("{id}")]
     public async Task<ActionResult<RoomGetDto>> GetRoom(uint id)
     {
-      if (_context.Rooms == null)
-      {
-          return NotFound();
-      }
+        if (_context.Rooms == null)
+        {
+            return NotFound();
+        }
         var room = await _context.Rooms.FindAsync(id);
 
         if (room == null)
@@ -99,10 +99,10 @@ public class RoomsController : ControllerBase
     [ProducesResponseType(201)]
     public async Task<ActionResult<Room>> PostRoom(RoomPostDto room)
     {
-      if (_context.Rooms == null)
-      {
-          return Problem("Entity set 'HotelDomainDbContext.Rooms'  is null.");
-      }
+        if (_context.Rooms == null)
+        {
+            return Problem("Entity set 'HotelDomainDbContext.Rooms'  is null.");
+        }
 
         var mappedRoom = _mapper.Map<Room>(room);
         _context.Rooms.Add(mappedRoom);

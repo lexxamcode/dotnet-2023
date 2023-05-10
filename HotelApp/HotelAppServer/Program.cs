@@ -4,7 +4,7 @@ using HotelAppServer.Repository;
 using HotelDomain;
 using Microsoft.EntityFrameworkCore;
 using System.Reflection;
-    
+
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddDbContext<HotelDomainDbContext>(options =>

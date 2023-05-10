@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
-using Microsoft.AspNetCore.Mvc;
 using HotelAppServer.Dto;
 using HotelDomain;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace HotelAppServer.Controllers;
@@ -67,11 +67,11 @@ public class QueryController : ControllerBase
 
         return await (from hotel in _dbContextFactory.Hotels
                       where hotel.Id == id
-                        join room in _dbContextFactory.Rooms on hotel.Id equals room.HotelId
-                join booking in _dbContextFactory.Bookings on room.Id equals booking.RoomId
-                join client in _dbContextFactory.Clients on booking.ClientId equals client.Id
-                orderby client.LastName
-                select _mapper.Map<ClientGetDto>(client)).Distinct().ToListAsync();
+                      join room in _dbContextFactory.Rooms on hotel.Id equals room.HotelId
+                      join booking in _dbContextFactory.Bookings on room.Id equals booking.RoomId
+                      join client in _dbContextFactory.Clients on booking.ClientId equals client.Id
+                      orderby client.LastName
+                      select _mapper.Map<ClientGetDto>(client)).Distinct().ToListAsync();
     }
 
     /// <summary>
@@ -123,8 +123,8 @@ public class QueryController : ControllerBase
                                 Hotel = hotel.Name,
                                 Type = room.Type,
                                 Amount = room.Amount - (from bookedRoom in room.Bookings
-                                                       where bookedRoom.RoomId.Equals(room.Id)
-                                                       select bookedRoom).Count()
+                                                        where bookedRoom.RoomId.Equals(room.Id)
+                                                        select bookedRoom).Count()
                             }).ToListAsync();
 
         return result;
