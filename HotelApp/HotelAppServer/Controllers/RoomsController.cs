@@ -20,9 +20,9 @@ public class RoomsController : ControllerBase
     /// <summary>
     /// Constructor setting logger, context and mapper
     /// </summary>
-    /// <param name="logger"></param>
-    /// <param name="context"></param>
-    /// <param name="mapper"></param>
+    /// <param name="logger">logger</param>
+    /// <param name="context">context</param>
+    /// <param name="mapper">mapper</param>
     public RoomsController(ILogger<RoomsController> logger, HotelDomainDbContext context, IMapper mapper)
     {
         _logger = logger;
@@ -47,7 +47,7 @@ public class RoomsController : ControllerBase
     /// <summary>
     /// Gets room by its id
     /// </summary>
-    /// <param name="id"></param>
+    /// <param name="id">id</param>
     /// <returns>Room with given id</returns>
     [HttpGet("{id}")]
     public async Task<ActionResult<RoomGetDto>> GetRoom(uint id)
@@ -69,8 +69,8 @@ public class RoomsController : ControllerBase
     /// <summary>
     /// Updates existing room in database
     /// </summary>
-    /// <param name="id"></param>
-    /// <param name="roomToPut"></param>
+    /// <param name="id">id</param>
+    /// <param name="roomToPut">room</param>
     /// <returns>No return value or error code</returns>
     [HttpPut("{id}")]
     public async Task<IActionResult> PutRoom(uint id, RoomPostDto roomToPut)
@@ -93,7 +93,7 @@ public class RoomsController : ControllerBase
     /// <summary>
     /// Adds a new room to the database
     /// </summary>
-    /// <param name="room"></param>
+    /// <param name="room">room</param>
     /// <returns>New room instance</returns>
     [HttpPost]
     [ProducesResponseType(201)]
@@ -114,7 +114,7 @@ public class RoomsController : ControllerBase
     /// <summary>
     /// Deletes room from database
     /// </summary>
-    /// <param name="id"></param>
+    /// <param name="id">id</param>
     /// <returns>No result value or error code</returns>
     [HttpDelete("{id}")]
     public async Task<IActionResult> DeleteRoom(uint id)

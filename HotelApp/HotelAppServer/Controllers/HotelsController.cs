@@ -17,6 +17,12 @@ public class HotelsController : ControllerBase
     private readonly HotelDomainDbContext _context;
     private readonly IMapper _mapper;
 
+    /// <summary>
+    /// HotelsController constructor
+    /// </summary>
+    /// <param name="logger">logger</param>
+    /// <param name="context">context</param>
+    /// <param name="mapper">mapper</param>
     public HotelsController(ILogger<HotelsController> logger, HotelDomainDbContext context, IMapper mapper)
     {
         _logger = logger;
@@ -41,7 +47,7 @@ public class HotelsController : ControllerBase
     /// <summary>
     /// Get hotel by its id
     /// </summary>
-    /// <param name="id"></param>
+    /// <param name="id">id</param>
     /// <returns>Hotel with given id</returns>
     [HttpGet("{id}")]
     public async Task<ActionResult<HotelGetDto>> GetHotel(uint id)
@@ -63,8 +69,8 @@ public class HotelsController : ControllerBase
     /// <summary>
     /// Updates existing hotel in database
     /// </summary>
-    /// <param name="id"></param>
-    /// <param name="hotelToPut"></param>
+    /// <param name="id">id</param>
+    /// <param name="hotelToPut">hotel</param>
     /// <returns>No return value or error code</returns>
     [HttpPut("{id}")]
     public async Task<IActionResult> PutHotel(uint id, HotelPostDto hotelToPut)
@@ -87,7 +93,7 @@ public class HotelsController : ControllerBase
     /// <summary>
     /// Adds a new hotel to the database
     /// </summary>
-    /// <param name="hotelToPost"></param>
+    /// <param name="hotelToPost">hotel</param>
     /// <returns>New hotel instance</returns>
     [HttpPost]
     public async Task<ActionResult<HotelGetDto>> PostHotel(HotelPostDto hotelToPost)
@@ -108,7 +114,7 @@ public class HotelsController : ControllerBase
     /// <summary>
     /// Deletes hotel from database
     /// </summary>
-    /// <param name="id"></param>
+    /// <param name="id">id</param>
     /// <returns>No return value or error code</returns>
     [HttpDelete("{id}")]
     public async Task<IActionResult> DeleteHotel(uint id)

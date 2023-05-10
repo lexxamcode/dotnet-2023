@@ -20,9 +20,9 @@ public class QueryController : ControllerBase
     /// <summary>
     /// Constructor setting logger, data repository and mapper
     /// </summary>
-    /// <param name="logger"></param>
-    /// <param name="mapper"></param>
-    /// <param name="dbContextFactory"></param>
+    /// <param name="logger">logger</param>
+    /// <param name="mapper">mapper</param>
+    /// <param name="dbContextFactory">dbContextFactory</param>
     public QueryController(ILogger<QueryController> logger, IMapper mapper, HotelDomainDbContext dbContextFactory)
     {
         _logger = logger;
@@ -49,7 +49,7 @@ public class QueryController : ControllerBase
     /// <summary>
     /// Returns list of clients of hotel with given id
     /// </summary>
-    /// <param name="id"></param>
+    /// <param name="id">id</param>
     /// <returns>list of clients of hotel with given id</returns>
     [HttpGet("hotel_clients/{id}")]
     public async Task<ActionResult<List<ClientGetDto>>> GetClients(int id)
@@ -98,7 +98,7 @@ public class QueryController : ControllerBase
     /// <summary>
     /// Returns list of available rooms in given city
     /// </summary>
-    /// <param name="city"></param>
+    /// <param name="city">city</param>
     /// <returns>list of available rooms in given city</returns>
     [HttpGet("available_rooms/{city}")]
     public async Task<ActionResult<dynamic>> GetAvailableRoomsInCity(string city)

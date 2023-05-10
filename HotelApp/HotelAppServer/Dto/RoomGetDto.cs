@@ -1,5 +1,8 @@
 ﻿namespace HotelAppServer.Dto;
 
+/// <summary>
+/// RoomGetDto for getting room instances
+/// </summary>
 public class RoomGetDto
 {
     /// <summary>
@@ -16,12 +19,10 @@ public class RoomGetDto
     public string Type { get; set; } = string.Empty;
     /// <summary>
     /// Amount - uint value for storing an amount of rooms of this type
+    /// </summary>
     public uint Amount { get; set; }
     /// <summary>
     /// Cost - uint for storing a cost of the room
     /// </summary>
     public uint Cost { get; set; }
-    /// <summary>
-    /// List of booking of this room
-    /// </summary>
 }

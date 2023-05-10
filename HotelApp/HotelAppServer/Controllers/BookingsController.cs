@@ -20,9 +20,9 @@ public class BookingsController : ControllerBase
     /// <summary>
     /// Constructor setting logger, context and mapper
     /// </summary>
-    /// <param name="logger"></param>
-    /// <param name="context"></param>
-    /// <param name="mapper"></param>
+    /// <param name="logger">logger</param>
+    /// <param name="context">context</param>
+    /// <param name="mapper">mapper</param>
     public BookingsController(ILogger<BookingsController> logger, HotelDomainDbContext context, IMapper mapper)
     {
         _logger = logger;
@@ -47,7 +47,7 @@ public class BookingsController : ControllerBase
     /// <summary>
     /// Get booking by its id
     /// </summary>
-    /// <param name="id"></param>
+    /// <param name="id">id</param>
     /// <returns>Booking with given id</returns>
     [HttpGet("{id}")]
     public async Task<ActionResult<BookingGetDto>> GetBooking(uint id)
@@ -69,8 +69,8 @@ public class BookingsController : ControllerBase
     /// <summary>
     /// Updates booking in database
     /// </summary>
-    /// <param name="id"></param>
-    /// <param name="bookingToPut"></param>
+    /// <param name="id">id</param>
+    /// <param name="bookingToPut">booking</param>
     /// <returns>No return value or error code</returns>
     [HttpPut("{id}")]
     public async Task<IActionResult> PutBooking(uint id, BookingPostDto bookingToPut)
@@ -93,7 +93,7 @@ public class BookingsController : ControllerBase
     /// <summary>
     /// Adds a new booking to a database
     /// </summary>
-    /// <param name="bookingToPost"></param>
+    /// <param name="bookingToPost">booking</param>
     /// <returns>Added booking</returns>
     [HttpPost]
     public async Task<ActionResult<BookingGetDto>> PostBooking(BookingPostDto bookingToPost)
@@ -114,7 +114,7 @@ public class BookingsController : ControllerBase
     /// <summary>
     /// Deletes booking from database
     /// </summary>
-    /// <param name="id"></param>
+    /// <param name="id">id</param>
     /// <returns>No return value or error code</returns>
     [HttpDelete("{id}")]
     public async Task<IActionResult> DeleteBooking(uint id)

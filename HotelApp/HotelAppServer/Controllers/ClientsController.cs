@@ -20,9 +20,9 @@ public class ClientsController : ControllerBase
     /// <summary>
     /// Constructor setting logger, context and mapper
     /// </summary>
-    /// <param name="logger"></param>
-    /// <param name="context"></param>
-    /// <param name="mapper"></param>
+    /// <param name="logger">logger</param>
+    /// <param name="context">logger</param>
+    /// <param name="mapper">logger</param>
     public ClientsController(ILogger<ClientsController> logger, HotelDomainDbContext context, IMapper mapper)
     {
         _logger = logger;
@@ -47,7 +47,7 @@ public class ClientsController : ControllerBase
     /// <summary>
     /// Returns the client by its id
     /// </summary>
-    /// <param name="id"></param>
+    /// <param name="id">id</param>
     /// <returns>client with given id</returns>
     [HttpGet("{id}")]
     public async Task<ActionResult<ClientGetDto>> GetClient(uint id)
@@ -69,8 +69,8 @@ public class ClientsController : ControllerBase
     /// <summary>
     /// Updates a person in repository
     /// </summary>
-    /// <param name="id"></param>
-    /// <param name="clientToPut"></param>
+    /// <param name="id">id</param>
+    /// <param name="clientToPut">client</param>
     /// <returns>code of operation</returns>
     [HttpPut("{id}")]
     public async Task<IActionResult> PutClient(uint id, [FromBody] ClientPostDto clientToPut)
@@ -93,7 +93,7 @@ public class ClientsController : ControllerBase
     /// <summary>
     /// Adds a client to repository
     /// </summary>
-    /// <param name="clientToPost"></param>
+    /// <param name="clientToPost">client</param>
     [HttpPost]
     [ProducesResponseType(201)]
     public async Task<ActionResult<Client>> PostClient(ClientPostDto clientToPost)
@@ -114,7 +114,7 @@ public class ClientsController : ControllerBase
     /// <summary>
     /// Deletes client from collection
     /// </summary>
-    /// <param name="id"></param>
+    /// <param name="id">id</param>
     /// <returns>code of operation</returns>
     [HttpDelete("{id}")]
     public async Task<IActionResult> DeleteClient(uint id)

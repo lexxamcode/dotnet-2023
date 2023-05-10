@@ -29,7 +29,4 @@ public class ClientGetDto
     /// BirthDate - DateTime typed value for storing birth date of person
     /// </summary>
     public DateTime BirthDate { set; get; } = DateTime.MinValue;
-    /// <summary>
-    /// List of clients bookings
-    /// </summary>
 }

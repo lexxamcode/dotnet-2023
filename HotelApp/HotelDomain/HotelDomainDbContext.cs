@@ -1,18 +1,40 @@
 ﻿using Microsoft.EntityFrameworkCore;
 
 namespace HotelDomain;
+/// <summary>
+/// Hotel database context
+/// </summary>
 public class HotelDomainDbContext : DbContext
 {
+    /// <summary>
+    /// Clients DbSet
+    /// </summary>
     public DbSet<Client> Clients { get; set; }
+    /// <summary>
+    /// Hotels DbSet
+    /// </summary>
     public DbSet<Hotel> Hotels { get; set; }
+    /// <summary>
+    /// Rooms DbSet
+    /// </summary>
     public DbSet<Room> Rooms { get; set; }
+    /// <summary>
+    /// Bookings DbSet
+    /// </summary>
     public DbSet<Booking> Bookings { get; set; }
 
+    /// <summary>
+    /// DbContext constructor
+    /// </summary>
+    /// <param name="options">options</param>
     public HotelDomainDbContext(DbContextOptions options) : base(options)
     {
         Database.EnsureCreated();
     }
-
+    /// <summary>
+    /// Fill Database on creating
+    /// </summary>
+    /// <param name="modelBuilder">modelBuilder</param>
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
