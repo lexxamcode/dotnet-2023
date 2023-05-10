@@ -14,8 +14,10 @@ public class MappingProfile : Profile
     public MappingProfile()
     {
         CreateMap<Client, ClientPostDto>().ReverseMap();
+        CreateMap<Client, ClientGetDto>().ReverseMap();
 
         CreateMap<Room, RoomPostDto>().ReverseMap();
+        CreateMap<Room, RoomGetDto>().ReverseMap();
 
         CreateMap<Booking, BookingGetDto>().ReverseMap();
         CreateMap<Booking, BookingPostDto>().ReverseMap();

@@ -4,33 +4,38 @@ namespace HotelDomain;
 /// <summary>
 /// BookedRoomType describes booked room in hotel
 /// </summary>
+[Table("booking")]
 public class Booking
 {
     /// <summary>
     /// Id - uint typed value for storing Id of the booked room
     /// </summary>
+    [Column("id")]
     public uint Id { get; set; }
     /// <summary>
     /// Room id represents a type of the booked room
     /// </summary>
-    [ForeignKey("RoomId")]
+    [ForeignKey("room_id")]
     public uint? RoomId { get; set; }
     /// <summary>
     /// Client value represents a person who booked the room
     /// </summary>
-    [ForeignKey("ClientId")]
+    [ForeignKey("client_id")]
     public uint? ClientId { get; set; }
     /// <summary>
     /// CheckInDate - DateTime typed value for storing a date of checking-in
     /// </summary>
+    [Column("check_in_date")]
     public DateTime CheckInDate { get; set; } = DateTime.MinValue;
     /// <summary>
     /// BookingPeriodInDays double typed value representing an amount of days between check-in and departure
     /// </summary>
+    [Column("booking_period_in_days")]
     public uint BookingPeriodInDays { get; set; }
     /// <summary>
     /// DepartureDate - DateTime typed value representing a departure date
     /// </summary>
+    [Column("departure_date")]
     public DateTime DepartureDate { get => CheckInDate.AddDays(BookingPeriodInDays); }
     /// <summary>
     /// Default constructor

@@ -18,7 +18,7 @@ public class ClientsController : ControllerBase
     private readonly IMapper _mapper;
 
     /// <summary>
-    /// Constructor setting logger, data repository and mapper
+    /// Constructor setting logger, context and mapper
     /// </summary>
     /// <param name="logger"></param>
     /// <param name="context"></param>
@@ -35,13 +35,13 @@ public class ClientsController : ControllerBase
     /// </summary>
     /// <returns>list of all clients</returns>
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<Client>>> GetClients()
+    public async Task<ActionResult<List<ClientGetDto>>> GetClients()
     {
       if (_context.Clients == null)
       {
           return NotFound();
       }
-        return await _context.Clients.ToListAsync();
+        return await _mapper.ProjectTo<ClientGetDto>(_context.Clients).ToListAsync();
     }
 
     /// <summary>
@@ -50,7 +50,7 @@ public class ClientsController : ControllerBase
     /// <param name="id"></param>
     /// <returns>client with given id</returns>
     [HttpGet("{id}")]
-    public async Task<ActionResult<Client>> GetClient(uint id)
+    public async Task<ActionResult<ClientGetDto>> GetClient(uint id)
     {
       if (_context.Clients == null)
       {
@@ -63,7 +63,7 @@ public class ClientsController : ControllerBase
             return NotFound();
         }
 
-        return client;
+        return _mapper.Map<ClientGetDto>(client);
     }
 
     /// <summary>

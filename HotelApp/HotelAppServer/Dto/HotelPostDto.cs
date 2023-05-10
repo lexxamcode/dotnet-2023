@@ -5,6 +5,7 @@
 /// </summary>
 public class HotelPostDto
 {
+
     /// <summary>
     /// Name - string value for name of the hotel
     /// </summary>

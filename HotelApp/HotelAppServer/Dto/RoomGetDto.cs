@@ -1,10 +1,13 @@
-﻿namespace HotelAppServer.Dto;
+﻿using System.ComponentModel.DataAnnotations.Schema;
 
-/// <summary>
-/// RoomPostDto for posting value with Room type
-/// </summary>
-public class RoomPostDto
+namespace HotelAppServer.Dto;
+
+public class RoomGetDto
 {
+    /// <summary>
+    /// Id - guid typed value for storing Id of the room
+    /// </summary>
+    public uint Id { get; set; }
     /// <summary>
     /// Hotel Id where room is
     /// </summary>
@@ -15,10 +18,12 @@ public class RoomPostDto
     public string Type { get; set; } = string.Empty;
     /// <summary>
     /// Amount - uint value for storing an amount of rooms of this type
-    /// </summary>
     public uint Amount { get; set; }
     /// <summary>
     /// Cost - uint for storing a cost of the room
     /// </summary>
     public uint Cost { get; set; }
+    /// <summary>
+    /// List of booking of this room
+    /// </summary>
 }
