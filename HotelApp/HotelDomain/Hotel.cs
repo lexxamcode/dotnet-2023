@@ -12,33 +12,23 @@ public class Hotel
     /// <summary>
     /// Id - uint typed value for storing Id of the client
     /// </summary>
-    [Column("id")]
     public uint Id { get; set; }
     /// <summary>
     /// Name - string value for name of the hotel
     /// </summary>
-    [Column("name")]
     public string Name { get; set; } = string.Empty;
     /// <summary>
     /// City - string value for city name of the hotel
     /// </summary>
-    [Column("city")]
     public string City { get; set; } = string.Empty;
     /// <summary>
     /// Address - string value for address where the hotel is
     /// </summary>
-    [Column("address")]
     public string Address { get; set; } = string.Empty;
     /// <summary>
     /// Rooms - list of room of the hotel
     /// </summary>
-    [ForeignKey("hotel_id")]
-    public List<Room> Rooms { get; set; } = new();
-    /// <summary>
-    /// Bookings - list of bookings of the hotel
-    /// </summary>
-    [ForeignKey("hotel_id")]
-    public List<Booking> Bookings { get; set; } = new();
+    public List<Room>? Rooms { get; set; }
     /// <summary>
     /// Default constructor
     /// </summary>
@@ -66,12 +56,10 @@ public class Hotel
     /// <param name="city"></param>
     /// <param name="address"></param>
     /// <param name="rooms"></param>
-    /// <param name="bookings"></param>
-    public Hotel(uint id, string name, string city, string address, List<Room> rooms, List<Booking> bookings)
+    public Hotel(uint id, string name, string city, string address, List<Room> rooms)
            : this(id, name, city, address)
     {
         Rooms = rooms;
-        Bookings = bookings;
     }
     /// <summary>
     /// Equals override
@@ -87,8 +75,7 @@ public class Hotel
             && Name == param.Name
             && City == param.City
             && Address == param.Address
-            && Rooms.Equals(param.Rooms)
-            && Bookings.Equals(param.Bookings);
+            && Rooms.Equals(param.Rooms);
     }
     /// <summary>
     /// GetHashCode override

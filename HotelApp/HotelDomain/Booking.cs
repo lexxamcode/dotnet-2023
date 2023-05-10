@@ -4,38 +4,33 @@ namespace HotelDomain;
 /// <summary>
 /// BookedRoomType describes booked room in hotel
 /// </summary>
-[Table("bookings")]
 public class Booking
 {
     /// <summary>
     /// Id - uint typed value for storing Id of the booked room
     /// </summary>
-    [Column("id")]
     public uint Id { get; set; }
     /// <summary>
-    /// Room value represents a type of the booked room
+    /// Room id represents a type of the booked room
     /// </summary>
-    [ForeignKey("room_id")]
-    public Room Room { get; set; } = new();
+    [ForeignKey("RoomId")]
+    public uint? RoomId { get; set; }
     /// <summary>
     /// Client value represents a person who booked the room
     /// </summary>
-    [ForeignKey("client_id")]
-    public Client Client { get; set; } = new();
+    [ForeignKey("ClientId")]
+    public uint? ClientId { get; set; }
     /// <summary>
     /// CheckInDate - DateTime typed value for storing a date of checking-in
     /// </summary>
-    [Column ("check_in_date")]
     public DateTime CheckInDate { get; set; } = DateTime.MinValue;
     /// <summary>
     /// BookingPeriodInDays double typed value representing an amount of days between check-in and departure
     /// </summary>
-    [Column("booking_period_in_days")]
     public uint BookingPeriodInDays { get; set; }
     /// <summary>
     /// DepartureDate - DateTime typed value representing a departure date
     /// </summary>
-    [Column("departure_date")]
     public DateTime DepartureDate { get => CheckInDate.AddDays(BookingPeriodInDays); }
     /// <summary>
     /// Default constructor
@@ -45,15 +40,15 @@ public class Booking
     /// Constructor with parameters
     /// </summary>
     /// <param name="id"></param>
-    /// <param name="room"></param>
-    /// <param name="client"></param>
+    /// <param name="roomId"></param>
+    /// <param name="clientId"></param>
     /// <param name="checkInDate"></param>
     /// <param name="bookingPeriodInDays"></param>
-    public Booking(uint id, Room room, Client client, DateTime checkInDate, uint bookingPeriodInDays)
+    public Booking(uint id, uint roomId, uint clientId, DateTime checkInDate, uint bookingPeriodInDays)
     {
         Id = id;
-        Room = room;
-        Client = client;
+        RoomId = roomId;
+        ClientId = clientId;
         CheckInDate = checkInDate;
         BookingPeriodInDays = bookingPeriodInDays;
     }
@@ -68,7 +63,8 @@ public class Booking
             return false;
 
         return Id == param.Id &&
-               Room.Equals(param.Room) && Client.Equals(param.Client) &&
+               RoomId == param.RoomId &&
+               ClientId == param.ClientId &&
                CheckInDate == param.CheckInDate &&
                DepartureDate == param.DepartureDate &&
                BookingPeriodInDays == param.BookingPeriodInDays;
