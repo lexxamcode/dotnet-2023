@@ -1,3 +1,5 @@
+using HotelDomain;
+
 namespace UnitTest;
 
 public class HotelDomainTest : IClassFixture<HotelDomainFixture>
@@ -22,8 +24,8 @@ public class HotelDomainTest : IClassFixture<HotelDomainFixture>
         Assert.Equal("Voidburg", requestHotelList[1].City);
         Assert.Equal("Salzburg st. 3", requestHotelList[2].Address);
         Assert.Equal("Default", requestHotelList[3].Rooms[1].Type);
-        Assert.Empty(requestHotelList[3].Bookings);
-        Assert.NotEmpty(requestHotelList[4].Bookings);
+        Assert.Equal(2, requestHotelList[3].Rooms.Count);
+        Assert.NotEmpty(requestHotelList[4].Rooms);
     }
 
     /// <summary>
@@ -35,9 +37,11 @@ public class HotelDomainTest : IClassFixture<HotelDomainFixture>
         // Sleepy Place has 2 clients - Charlie Scene and Maria Ivanova
         var clients = (from hotel in _hotelFixture.Hotels
                        where hotel.Name == "Sleepy Place"
-                       from booking in hotel.Bookings
-                       orderby booking.Client.LastName
-                       select booking.Client).ToList();
+                       join room in _hotelFixture.Rooms on hotel.Id equals room.HotelId
+                       from booking in room.Bookings
+                       join client in _hotelFixture.Clients on booking.ClientId equals client.Id
+                       orderby client.LastName
+                       select client).ToList();
 
         Assert.Equal("Ivanova", clients[0].LastName);
         Assert.Equal("Scene", clients[1].LastName);
@@ -50,15 +54,26 @@ public class HotelDomainTest : IClassFixture<HotelDomainFixture>
     public void TopHotels()
     {
         // Sort hotelList by booked rooms count using LINQ
-        var linqSortedHotelList = (from hotel in _hotelFixture.Hotels
-                                   orderby hotel.Bookings.Count descending
-                                   select hotel).ToList();
+        var linqSortedHotelList = (from room in _hotelFixture.Rooms
+                                   join hotel in _hotelFixture.Hotels on room.HotelId equals hotel.Id
+                                   group room by room.HotelId into hotelRooms
+                                   select new
+                                   {
+                                       HotelName = (from hotel in _hotelFixture.Hotels where hotel.Id == hotelRooms.Key.Value select hotel.Name).Single(),
+                                       Bookings = hotelRooms.Sum(e => e.Bookings.Count)
+                                   }).OrderByDescending(hotelRooms => hotelRooms.Bookings).ToList();
 
-        Assert.Equal("Chillzone", linqSortedHotelList[0].Name);       // "Chillzone" has 6 booked rooms
-        Assert.Equal("Comfort Palace", linqSortedHotelList[1].Name);  // "Comfort" Palace has 3 booked rooms
-        Assert.Equal("Sleepy Place", linqSortedHotelList[2].Name);    // "Sleepy" Place has 2 booked rooms
-        Assert.Equal("First Class", linqSortedHotelList[3].Name);     // "First" class has 1 booked room
-        Assert.Equal("Cheap'n'Cool", linqSortedHotelList[4].Name);    // "Cheap'n'cool" has no booked rooms
+        foreach(var hotel in linqSortedHotelList)
+        {
+            Console.WriteLine(hotel.HotelName);
+            Console.WriteLine(hotel.Bookings);
+        }
+
+        Assert.Equal("Chillzone", linqSortedHotelList[0].HotelName);       // "Chillzone" has 6 booked rooms
+        Assert.Equal("Comfort Palace", linqSortedHotelList[1].HotelName);  // "Comfort" Palace has 3 booked rooms
+        Assert.Equal("Sleepy Place", linqSortedHotelList[2].HotelName);    // "Sleepy" Place has 2 booked rooms
+        Assert.Equal("First Class", linqSortedHotelList[3].HotelName);     // "First" class has 1 booked room
+        Assert.Equal("Cheap'n'Cool", linqSortedHotelList[4].HotelName);    // "Cheap'n'cool" has no booked rooms
     }
 
     /// <summary>
@@ -74,13 +89,13 @@ public class HotelDomainTest : IClassFixture<HotelDomainFixture>
     {
         var freeRooms = (from hotel in _hotelFixture.Hotels
                          where hotel.City == "Voidburg"
-                         from room in hotel.Rooms
+                         from room in hotel.Rooms!
                          select new
                          {
                              Hotel = hotel.Name,
                              Type = room.Type,
-                             Amount = room.Amount - (from bookedRoom in hotel.Bookings
-                                                     where bookedRoom.Room.Equals(room)
+                             Amount = room.Amount - (from bookedRoom in room.Bookings
+                                                     where bookedRoom.RoomId.Equals(room.Id)
                                                      select bookedRoom).Count()
                          }).ToList();
 
@@ -104,10 +119,10 @@ public class HotelDomainTest : IClassFixture<HotelDomainFixture>
     public void LongestBookingClients()
     {
         // from hotel select those clients who booked room with longest booking period
-        var clientsWithLongestBookingPeriod = (from hotel in _hotelFixture.Hotels
-                                               from booking in hotel.Bookings
+        var clientsWithLongestBookingPeriod = (from booking in _hotelFixture.Bookings
+                                               join client in _hotelFixture.Clients on booking.ClientId equals client.Id
                                                orderby booking.BookingPeriodInDays descending
-                                               select booking.Client).Distinct().ToList();
+                                               select client).Distinct().ToList();
 
         Assert.Equal("Scene", clientsWithLongestBookingPeriod[0].LastName);       // Top-1 - Charile Scene - 8 days
         Assert.Equal("Kotovich", clientsWithLongestBookingPeriod[1].LastName);    // Top-2 - Alexey Kotovich - 7 days
