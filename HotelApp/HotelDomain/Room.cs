@@ -15,6 +15,7 @@ public class Room
     /// <summary>
     /// Hotel Id where room is
     /// </summary>
+    [Column("hotel_id")]
     [ForeignKey("hotel_id")]
     public uint? HotelId { get; set; }
     /// <summary>
@@ -24,6 +25,7 @@ public class Room
     public string Type { get; set; } = string.Empty;
     /// <summary>
     /// Amount - uint value for storing an amount of rooms of this type
+    /// </summary>
     [Column("amount")]
     public uint Amount { get; set; }
     /// <summary>

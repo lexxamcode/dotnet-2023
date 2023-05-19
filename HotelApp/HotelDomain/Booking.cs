@@ -15,11 +15,13 @@ public class Booking
     /// <summary>
     /// Room id represents a type of the booked room
     /// </summary>
+    [Column("room_id")]
     [ForeignKey("room_id")]
     public uint? RoomId { get; set; }
     /// <summary>
     /// Client value represents a person who booked the room
     /// </summary>
+    [Column("client_id")]
     [ForeignKey("client_id")]
     public uint? ClientId { get; set; }
     /// <summary>

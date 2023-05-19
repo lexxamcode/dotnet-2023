@@ -37,10 +37,13 @@ public class BookingsController : ControllerBase
     [HttpGet]
     public async Task<ActionResult<List<BookingGetDto>>> GetBookings()
     {
+        _logger.LogInformation("Get all bookings");
         if (_context.Bookings == null)
         {
+            _logger.LogInformation("Bookings list is empty");
             return NotFound();
         }
+
         return await _mapper.ProjectTo<BookingGetDto>(_context.Bookings).ToListAsync();
     }
 
@@ -52,14 +55,17 @@ public class BookingsController : ControllerBase
     [HttpGet("{id}")]
     public async Task<ActionResult<BookingGetDto>> GetBooking(uint id)
     {
+        _logger.LogInformation("Get booking with id={Id}", id);
         if (_context.Bookings == null)
         {
+            _logger.LogInformation("Bookings list is empty");
             return NotFound();
         }
-        var booking = await _context.Bookings.FindAsync(id);
 
+        var booking = await _context.Bookings.FindAsync(id);
         if (booking == null)
         {
+            _logger.LogInformation("Can not find booking with id={Id}", id);
             return NotFound();
         }
 
@@ -75,13 +81,21 @@ public class BookingsController : ControllerBase
     [HttpPut("{id}")]
     public async Task<IActionResult> PutBooking(uint id, BookingPostDto bookingToPut)
     {
+        _logger.LogInformation("Put booking with id={Id}", id);
+
         if (_context.Bookings == null)
+        {
+            _logger.LogInformation("Bookings list is empty");
             return NotFound();
+        }
 
         var booking = await _context.Bookings.FindAsync(id);
 
         if (booking == null)
+        {
+            _logger.LogInformation("Can not find booking with id={Id}", id);
             return NotFound();
+        };
 
         _mapper.Map(bookingToPut, booking);
 
@@ -98,9 +112,11 @@ public class BookingsController : ControllerBase
     [HttpPost]
     public async Task<ActionResult<BookingGetDto>> PostBooking(BookingPostDto bookingToPost)
     {
+        _logger.LogInformation("Post new booking");
         if (_context.Bookings == null)
         {
-            return Problem("Entity set 'HotelDomainDbContext.Bookings'  is null.");
+            _logger.LogInformation("Bookings list is empty");
+            return NotFound();
         }
 
         var mappedBooking = _mapper.Map<Booking>(bookingToPost);
@@ -119,15 +135,20 @@ public class BookingsController : ControllerBase
     [HttpDelete("{id}")]
     public async Task<IActionResult> DeleteBooking(uint id)
     {
+        _logger.LogInformation("Delete booking with id={Id}", id);
+
         if (_context.Bookings == null)
         {
+            _logger.LogInformation("Bookings list is empty");
             return NotFound();
         }
+
         var booking = await _context.Bookings.FindAsync(id);
         if (booking == null)
         {
+            _logger.LogInformation("Can not find booking with id={Id}", id);
             return NotFound();
-        }
+        };
 
         _context.Bookings.Remove(booking);
         await _context.SaveChangesAsync();

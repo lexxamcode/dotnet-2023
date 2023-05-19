@@ -37,8 +37,10 @@ public class ClientsController : ControllerBase
     [HttpGet]
     public async Task<ActionResult<List<ClientGetDto>>> GetClients()
     {
+        _logger.LogInformation("Get all clients");
         if (_context.Clients == null)
         {
+            _logger.LogInformation("Clients list is empty");
             return NotFound();
         }
         return await _mapper.ProjectTo<ClientGetDto>(_context.Clients).ToListAsync();
@@ -52,14 +54,18 @@ public class ClientsController : ControllerBase
     [HttpGet("{id}")]
     public async Task<ActionResult<ClientGetDto>> GetClient(uint id)
     {
+        _logger.LogInformation("Get client with id={Id}", id);
+
         if (_context.Clients == null)
         {
+            _logger.LogInformation("Clients list is empty");
             return NotFound();
         }
         var client = await _context.Clients.FindAsync(id);
 
         if (client == null)
         {
+            _logger.LogInformation("Could not find client with id={Id}", id);
             return NotFound();
         }
 
@@ -75,13 +81,21 @@ public class ClientsController : ControllerBase
     [HttpPut("{id}")]
     public async Task<IActionResult> PutClient(uint id, [FromBody] ClientPostDto clientToPut)
     {
+        _logger.LogInformation("Put client with id={Id}", id);
+
         if (_context.Clients == null)
+        {
+            _logger.LogInformation("Clients list is empty");
             return NotFound();
+        }
 
         var client = await _context.Clients.FindAsync(id);
 
         if (client == null)
+        {
+            _logger.LogInformation("Could not find client with id={Id}", id);
             return NotFound();
+        }
 
         _mapper.Map(clientToPut, client);
 
@@ -98,9 +112,12 @@ public class ClientsController : ControllerBase
     [ProducesResponseType(201)]
     public async Task<ActionResult<Client>> PostClient(ClientPostDto clientToPost)
     {
+        _logger.LogInformation("Post new client");
+
         if (_context.Clients == null)
         {
-            return Problem("Entity set 'HotelDomainDbContext.Clients'  is null.");
+            _logger.LogInformation("Clients list is empty");
+            return NotFound();
         }
 
         var mappedClient = _mapper.Map<Client>(clientToPost);
@@ -119,13 +136,18 @@ public class ClientsController : ControllerBase
     [HttpDelete("{id}")]
     public async Task<IActionResult> DeleteClient(uint id)
     {
+        _logger.LogInformation("Delete client with id={Id}", id);
+
         if (_context.Clients == null)
         {
+            _logger.LogInformation("Clients list is empty");
             return NotFound();
         }
+
         var client = await _context.Clients.FindAsync(id);
         if (client == null)
         {
+            _logger.LogInformation("Could not find client with id={Id}", id);
             return NotFound();
         }
 

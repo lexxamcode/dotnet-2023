@@ -78,7 +78,7 @@ public class Hotel
             && Name == param.Name
             && City == param.City
             && Address == param.Address
-            && Rooms.Equals(param.Rooms);
+            && Rooms!.Equals(param.Rooms);
     }
     /// <summary>
     /// GetHashCode override

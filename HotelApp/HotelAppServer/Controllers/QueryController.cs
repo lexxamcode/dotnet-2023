@@ -89,8 +89,8 @@ public class QueryController : ControllerBase
                             group room by room.HotelId into hotelRooms
                             select new
                             {
-                                HotelName = (from hotel in _dbContextFactory.Hotels where hotel.Id == hotelRooms.Key.Value select hotel.Name).Single(),
-                                Bookings = hotelRooms.Sum(e => e.Bookings.Count)
+                                HotelName = (from hotel in _dbContextFactory.Hotels where hotel.Id == hotelRooms.Key!.Value select hotel.Name).Single(),
+                                Bookings = hotelRooms.Sum(e => e.Bookings!.Count)
                             }).OrderByDescending(hotelRooms => hotelRooms.Bookings).ToListAsync();
         return Ok(result);
     }
@@ -161,13 +161,13 @@ public class QueryController : ControllerBase
         _logger.LogInformation("GET prices for each hotel");
 
         var result = await (from hotel in _dbContextFactory.Hotels
-                            where hotel.Rooms.Count() != 0
+                            where hotel.Rooms!.Count() != 0
                             select new
                             {
                                 HotelName = hotel.Name,
                                 Min = hotel.Rooms!.Min(r => r.Cost),
                                 Max = hotel.Rooms!.Max(r => r.Cost),
-                                Average = hotel.Rooms.Sum(r => r.Cost) / hotel.Rooms.Count()
+                                Average = hotel.Rooms!.Sum(r => r.Cost) / hotel.Rooms!.Count()
                             }).ToListAsync();
 
         return result;

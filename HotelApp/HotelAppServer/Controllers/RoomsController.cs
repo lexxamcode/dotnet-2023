@@ -37,8 +37,10 @@ public class RoomsController : ControllerBase
     [HttpGet]
     public async Task<ActionResult<List<RoomGetDto>>> GetRooms()
     {
+        _logger.LogInformation("Get all rooms");
         if (_context.Rooms == null)
-        {
+        {   
+            _logger.LogInformation("Rooms list is empty");
             return NotFound();
         }
         return await _mapper.ProjectTo<RoomGetDto>(_context.Rooms).ToListAsync();
@@ -54,12 +56,14 @@ public class RoomsController : ControllerBase
     {
         if (_context.Rooms == null)
         {
+            _logger.LogInformation("Rooms list is empty");
             return NotFound();
         }
         var room = await _context.Rooms.FindAsync(id);
 
         if (room == null)
         {
+            _logger.LogInformation("Can not find room with id={Id}", id);
             return NotFound();
         }
 
@@ -75,13 +79,20 @@ public class RoomsController : ControllerBase
     [HttpPut("{id}")]
     public async Task<IActionResult> PutRoom(uint id, RoomPostDto roomToPut)
     {
+        _logger.LogInformation("Put room with id={Id}", id);
         if (_context.Rooms == null)
+        {
+            _logger.LogInformation("Rooms list is empty");
             return NotFound();
+        }
 
         var room = await _context.Rooms.FindAsync(id);
 
         if (room == null)
+        {
+            _logger.LogInformation("Can not find room with id={Id}", id);
             return NotFound();
+        }
 
         _mapper.Map(roomToPut, room);
 
@@ -99,9 +110,12 @@ public class RoomsController : ControllerBase
     [ProducesResponseType(201)]
     public async Task<ActionResult<Room>> PostRoom(RoomPostDto room)
     {
+        _logger.LogInformation("Post new room");
+
         if (_context.Rooms == null)
         {
-            return Problem("Entity set 'HotelDomainDbContext.Rooms'  is null.");
+            _logger.LogInformation("Rooms list is empty");
+            return NotFound();
         }
 
         var mappedRoom = _mapper.Map<Room>(room);
@@ -119,13 +133,18 @@ public class RoomsController : ControllerBase
     [HttpDelete("{id}")]
     public async Task<IActionResult> DeleteRoom(uint id)
     {
+        _logger.LogInformation("Delete room with id={Id}", id);
         if (_context.Rooms == null)
         {
+            _logger.LogInformation("Rooms list is empty");
             return NotFound();
         }
+
         var room = await _context.Rooms.FindAsync(id);
+
         if (room == null)
         {
+            _logger.LogInformation("Can not find room with id={Id}", id);
             return NotFound();
         }
 

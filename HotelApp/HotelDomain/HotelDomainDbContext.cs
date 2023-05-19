@@ -9,19 +9,20 @@ public class HotelDomainDbContext : DbContext
     /// <summary>
     /// Clients DbSet
     /// </summary>
-    public DbSet<Client> Clients { get; set; }
+    public DbSet<Client> Clients { get; set; } = null!;
     /// <summary>
     /// Hotels DbSet
     /// </summary>
-    public DbSet<Hotel> Hotels { get; set; }
+    public DbSet<Hotel> Hotels { get; set; } = null!;
     /// <summary>
     /// Rooms DbSet
     /// </summary>
-    public DbSet<Room> Rooms { get; set; }
+    public DbSet<Room> Rooms { get; set; } = null!;
     /// <summary>
     /// Bookings DbSet
     /// </summary>
-    public DbSet<Booking> Bookings { get; set; }
+    public DbSet<Booking> Bookings { get; set; } = null!;
+
 
     /// <summary>
     /// DbContext constructor
