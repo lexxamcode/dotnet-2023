@@ -8,7 +8,7 @@ public class RoomPostDto
     /// <summary>
     /// Hotel Id where room is
     /// </summary>
-    public uint? HotelId { get; set; }
+    public uint HotelId { get; set; }
     /// <summary>
     /// Type - string typed value representing a type of the room
     /// </summary>

@@ -38,11 +38,6 @@ public class RoomsController : ControllerBase
     public async Task<ActionResult<List<RoomGetDto>>> GetRooms()
     {
         _logger.LogInformation("Get all rooms");
-        if (_context.Rooms == null)
-        {   
-            _logger.LogInformation("Rooms list is empty");
-            return NotFound();
-        }
         return await _mapper.ProjectTo<RoomGetDto>(_context.Rooms).ToListAsync();
     }
 
@@ -54,11 +49,7 @@ public class RoomsController : ControllerBase
     [HttpGet("{id}")]
     public async Task<ActionResult<RoomGetDto>> GetRoom(uint id)
     {
-        if (_context.Rooms == null)
-        {
-            _logger.LogInformation("Rooms list is empty");
-            return NotFound();
-        }
+        _logger.LogInformation("Get room with id={Id}", id);
         var room = await _context.Rooms.FindAsync(id);
 
         if (room == null)
@@ -80,11 +71,6 @@ public class RoomsController : ControllerBase
     public async Task<IActionResult> PutRoom(uint id, RoomPostDto roomToPut)
     {
         _logger.LogInformation("Put room with id={Id}", id);
-        if (_context.Rooms == null)
-        {
-            _logger.LogInformation("Rooms list is empty");
-            return NotFound();
-        }
 
         var room = await _context.Rooms.FindAsync(id);
 
@@ -112,12 +98,6 @@ public class RoomsController : ControllerBase
     {
         _logger.LogInformation("Post new room");
 
-        if (_context.Rooms == null)
-        {
-            _logger.LogInformation("Rooms list is empty");
-            return NotFound();
-        }
-
         var mappedRoom = _mapper.Map<Room>(room);
         _context.Rooms.Add(mappedRoom);
         await _context.SaveChangesAsync();
@@ -134,11 +114,6 @@ public class RoomsController : ControllerBase
     public async Task<IActionResult> DeleteRoom(uint id)
     {
         _logger.LogInformation("Delete room with id={Id}", id);
-        if (_context.Rooms == null)
-        {
-            _logger.LogInformation("Rooms list is empty");
-            return NotFound();
-        }
 
         var room = await _context.Rooms.FindAsync(id);
 

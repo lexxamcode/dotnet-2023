@@ -38,12 +38,6 @@ public class HotelsController : ControllerBase
     public async Task<ActionResult<List<HotelGetDto>>> GetHotels()
     {
         _logger.LogInformation("Get all hotels");
-        if (_context.Hotels == null)
-        {
-            _logger.LogInformation("Hotels list is empty");
-            return NotFound();
-        }
-
         return await _mapper.ProjectTo<HotelGetDto>(_context.Hotels).ToListAsync();
     }
 
@@ -56,12 +50,6 @@ public class HotelsController : ControllerBase
     public async Task<ActionResult<HotelGetDto>> GetHotel(uint id)
     {
         _logger.LogInformation("Get hotel with id={Id}", id);
-
-        if (_context.Hotels == null)
-        {
-            _logger.LogInformation("Hotels list is empty");
-            return NotFound();
-        }
 
         var hotel = await _context.Hotels.FindAsync(id);
 
@@ -84,12 +72,6 @@ public class HotelsController : ControllerBase
     public async Task<IActionResult> PutHotel(uint id, HotelPostDto hotelToPut)
     {
         _logger.LogInformation("Put hotel with id={Id}", id);
-
-        if (_context.Hotels == null)
-        {
-            _logger.LogInformation("Hotels list is empty");
-            return NotFound();
-        }
 
         var hotel = await _context.Hotels.FindAsync(id);
 
@@ -115,11 +97,6 @@ public class HotelsController : ControllerBase
     public async Task<ActionResult<HotelGetDto>> PostHotel(HotelPostDto hotelToPost)
     {
         _logger.LogInformation("Post new hotel");
-        if (_context.Hotels == null)
-        {
-            _logger.LogInformation("Hotels list is empty");
-            return NotFound();
-        }
 
         var mappedHotel = _mapper.Map<Hotel>(hotelToPost);
         _context.Hotels.Add(mappedHotel);
@@ -138,11 +115,6 @@ public class HotelsController : ControllerBase
     public async Task<IActionResult> DeleteHotel(uint id)
     {
         _logger.LogInformation("Delete hotel with id={Id}", id);
-        if (_context.Hotels == null)
-        {
-            _logger.LogInformation("Hotels list is empty");
-            return NotFound();
-        }
 
         var hotel = await _context.Hotels.FindAsync(id);
         if (hotel == null)

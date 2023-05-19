@@ -38,11 +38,6 @@ public class ClientsController : ControllerBase
     public async Task<ActionResult<List<ClientGetDto>>> GetClients()
     {
         _logger.LogInformation("Get all clients");
-        if (_context.Clients == null)
-        {
-            _logger.LogInformation("Clients list is empty");
-            return NotFound();
-        }
         return await _mapper.ProjectTo<ClientGetDto>(_context.Clients).ToListAsync();
     }
 
@@ -56,11 +51,6 @@ public class ClientsController : ControllerBase
     {
         _logger.LogInformation("Get client with id={Id}", id);
 
-        if (_context.Clients == null)
-        {
-            _logger.LogInformation("Clients list is empty");
-            return NotFound();
-        }
         var client = await _context.Clients.FindAsync(id);
 
         if (client == null)
@@ -82,12 +72,6 @@ public class ClientsController : ControllerBase
     public async Task<IActionResult> PutClient(uint id, [FromBody] ClientPostDto clientToPut)
     {
         _logger.LogInformation("Put client with id={Id}", id);
-
-        if (_context.Clients == null)
-        {
-            _logger.LogInformation("Clients list is empty");
-            return NotFound();
-        }
 
         var client = await _context.Clients.FindAsync(id);
 
@@ -114,12 +98,6 @@ public class ClientsController : ControllerBase
     {
         _logger.LogInformation("Post new client");
 
-        if (_context.Clients == null)
-        {
-            _logger.LogInformation("Clients list is empty");
-            return NotFound();
-        }
-
         var mappedClient = _mapper.Map<Client>(clientToPost);
         _context.Clients.Add(mappedClient);
 
@@ -137,12 +115,6 @@ public class ClientsController : ControllerBase
     public async Task<IActionResult> DeleteClient(uint id)
     {
         _logger.LogInformation("Delete client with id={Id}", id);
-
-        if (_context.Clients == null)
-        {
-            _logger.LogInformation("Clients list is empty");
-            return NotFound();
-        }
 
         var client = await _context.Clients.FindAsync(id);
         if (client == null)

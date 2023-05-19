@@ -12,11 +12,11 @@ public class BookingGetDto
     /// <summary>
     /// RoomId value represents an id of type of the booked room
     /// </summary>
-    public uint RoomId { get; set; } = new();
+    public uint RoomId { get; set; }
     /// <summary>
     /// ClientId value represents a id of person who booked the room
     /// </summary>
-    public uint ClientId { get; set; } = new();
+    public uint ClientId { get; set; }
     /// <summary>
     /// CheckInDate - DateTime typed value for storing a date of checking-in
     /// </summary>
