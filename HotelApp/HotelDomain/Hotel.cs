@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace HotelDomain;
 
@@ -17,16 +18,19 @@ public class Hotel
     /// Name - string value for name of the hotel
     /// </summary>
     [Column("name")]
+    [Required]
     public string Name { get; set; } = string.Empty;
     /// <summary>
     /// City - string value for city name of the hotel
     /// </summary>
     [Column("city")]
+    [Required]
     public string City { get; set; } = string.Empty;
     /// <summary>
     /// Address - string value for address where the hotel is
     /// </summary>
     [Column("address")]
+    [Required]
     public string Address { get; set; } = string.Empty;
     /// <summary>
     /// Rooms - list of room of the hotel

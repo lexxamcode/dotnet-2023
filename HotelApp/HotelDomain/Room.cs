@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace HotelDomain;
 /// <summary>
@@ -17,21 +18,25 @@ public class Room
     /// </summary>
     [Column("hotel_id")]
     [ForeignKey("hotel_id")]
+    [Required]
     public uint? HotelId { get; set; }
     /// <summary>
     /// Type - string typed value representing a type of the room
     /// </summary>
     [Column("type")]
+    [Required]
     public string Type { get; set; } = string.Empty;
     /// <summary>
     /// Amount - uint value for storing an amount of rooms of this type
     /// </summary>
     [Column("amount")]
+    [Required]
     public uint Amount { get; set; }
     /// <summary>
     /// Cost - uint for storing a cost of the room
     /// </summary>
     [Column("cost")]
+    [Required]
     public uint Cost { get; set; }
     /// <summary>
     /// List of booking of this room

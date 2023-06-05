@@ -1,0 +1,57 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+		xmlns:materialIcons="clr-namespace:Material.Icons.Avalonia;assembly=Material.Icons.Avalonia"
+        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+        x:Class="HotelAppClient.Views.ClientWindow"
+		xmlns:vm="using:HotelAppClient.ViewModels"
+        Title="Change Client"
+		TransparencyLevelHint="AcrylicBlur"
+		Background="Transparent"
+	    ExtendClientAreaToDecorationsHint="True"
+		MaxWidth="500"
+		MaxHeight="500"
+		SizeToContent="WidthAndHeight">
+	
+	<Design.DataContext>
+		<vm:ClientViewModel/>
+	</Design.DataContext>
+	
+	<Window.Styles>
+		<StyleInclude Source="/HotelAppClientStyles.axaml"/>
+	</Window.Styles>
+
+	<Panel>
+		<ExperimentalAcrylicBorder IsHitTestVisible="False">
+			<ExperimentalAcrylicBorder.Material>
+				<ExperimentalAcrylicMaterial
+					BackgroundSource="Digger"
+					TintColor="Black"
+					TintOpacity="1"
+					MaterialOpacity="0.75" />
+			</ExperimentalAcrylicBorder.Material>
+		</ExperimentalAcrylicBorder>
+
+		<Grid Classes="MainGrid" RowDefinitions="Auto, *, *, *, *, *" ColumnDefinitions="Auto, *">
+			<Label Grid.Row="0" Grid.Column="0" VerticalAlignment="Center">First Name</Label>
+			<Label Grid.Row="1" Grid.Column="0" VerticalAlignment="Center">Last Name</Label>
+			<Label Grid.Row="2" Grid.Column="0" VerticalAlignment="Center">Surname</Label>
+			<Label Grid.Row="3" Grid.Column="0" VerticalAlignment="Center">Passport</Label>
+			<Label Grid.Row="4" Grid.Column="0" VerticalAlignment="Center">Birth Date</Label>
+
+			<TextBox Grid.Row="0" Grid.Column="1" Text="{Binding FirstName}" Foreground="Black"></TextBox>
+			<TextBox Grid.Row="1" Grid.Column="1" Text="{Binding LastName}" Foreground="Black"></TextBox>
+			<TextBox Grid.Row="2" Grid.Column="1" Text="{Binding Surname}" Foreground="Black"></TextBox>
+			<MaskedTextBox Mask="00 00 000000" Grid.Row="3" Grid.Column="1" Text="{Binding Passport}" Foreground="Black"/>
+			<DatePicker Grid.Row="4" Grid.Column="1" SelectedDate="{Binding BirthDate}" Foreground="Black"/>
+
+			<StackPanel Grid.Row="5" Grid.Column="1" Grid.ColumnSpan="1"
+							HorizontalAlignment="Right"
+							Orientation="Horizontal">
+				<Button IsCancel="True" Click="CancelButton_OnClick" Content="{materialIcons:MaterialIconExt Kind=Cancel}"/>
+				<Button IsDefault="True" Command="{Binding OnSubmitCommand}" Content="{materialIcons:MaterialIconExt Kind=Check}"/>
+			</StackPanel>
+		</Grid>
+	</Panel>
+</Window>

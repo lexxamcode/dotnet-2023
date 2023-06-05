@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace HotelDomain;
 /// <summary>
@@ -17,22 +18,26 @@ public class Booking
     /// </summary>
     [Column("room_id")]
     [ForeignKey("room_id")]
+    [Required]
     public uint? RoomId { get; set; }
     /// <summary>
     /// Client value represents a person who booked the room
     /// </summary>
     [Column("client_id")]
     [ForeignKey("client_id")]
+    [Required]
     public uint? ClientId { get; set; }
     /// <summary>
     /// CheckInDate - DateTime typed value for storing a date of checking-in
     /// </summary>
     [Column("check_in_date")]
+    [Required]
     public DateTime CheckInDate { get; set; } = DateTime.MinValue;
     /// <summary>
     /// BookingPeriodInDays double typed value representing an amount of days between check-in and departure
     /// </summary>
     [Column("booking_period_in_days")]
+    [Required]
     public uint BookingPeriodInDays { get; set; }
     /// <summary>
     /// DepartureDate - DateTime typed value representing a departure date

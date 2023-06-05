@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace HotelDomain;
 /// <summary>
@@ -16,16 +17,19 @@ public class Client
     /// Passport - a string representing passport number
     /// </summary>
     [Column("passport")]
+    [Required]
     public string Passport { set; get; } = string.Empty;
     /// <summary>
     /// FirstName - a string representing person's name
     /// </summary>  
     [Column("first_name")]
+    [StringLength(int.MaxValue, MinimumLength = 2, ErrorMessage = "First name must have at least 2 characters")]
     public string FirstName { set; get; } = string.Empty;
     /// <summary>
     /// LastName - a string representing person's last name
     /// </summary>
     [Column("last_name")]
+    [Required]
     public string LastName { set; get; } = string.Empty;
     /// <summary>
     /// Surname - a string representing person's surname
@@ -36,6 +40,7 @@ public class Client
     /// BirthDate - DateTime typed value for storing birth date of person
     /// </summary>
     [Column("birth_date")]
+    [Required]
     public DateTime BirthDate { set; get; } = DateTime.MinValue;
     /// <summary>
     /// List of clients bookings
