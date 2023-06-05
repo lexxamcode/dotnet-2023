@@ -30,9 +30,9 @@
         </ExperimentalAcrylicBorder>
 		
 	    <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="8">
-			<Button Command="{Binding OnAddCommand}" Content="{materialIcons:MaterialIconExt Kind=AccountPlus}"/>
-			<Button Command="{Binding OnChangeCommand}" Content="{materialIcons:MaterialIconExt Kind=AccountWrench}"/>
-			<Button Command="{Binding OnDeleteCommand}" Content="{materialIcons:MaterialIconExt Kind=AccountMinus}"/>
+			<Button Command="{Binding OnAddClientCommand}" Content="{materialIcons:MaterialIconExt Kind=AccountPlus}"/>
+			<Button Command="{Binding OnChangeClientCommand}" Content="{materialIcons:MaterialIconExt Kind=AccountWrench}"/>
+			<Button Command="{Binding OnDeleteClientCommand}" Content="{materialIcons:MaterialIconExt Kind=AccountMinus}"/>
 	    </StackPanel>
 		
 	    <DataGrid Grid.Row="1" AutoGenerateColumns="False" Background="Transparent"

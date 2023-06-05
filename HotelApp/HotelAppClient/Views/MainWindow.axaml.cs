@@ -11,10 +11,10 @@ public partial class MainWindow : ReactiveWindow<MainWindowViewModel>
     {
         InitializeComponent();
 
-        this.WhenActivated(d => d(ViewModel!.ShowClientDialog.RegisterHandler(ShowDialogAsync)));
+        this.WhenActivated(d => d(ViewModel!.ShowClientDialog.RegisterHandler(ShowClientDialogAsync)));
     }
 
-    private async Task ShowDialogAsync(InteractionContext<ClientViewModel, ClientViewModel?> interaction)
+    private async Task ShowClientDialogAsync(InteractionContext<ClientViewModel, ClientViewModel?> interaction)
     {
         var dialog = new ClientWindow
         {

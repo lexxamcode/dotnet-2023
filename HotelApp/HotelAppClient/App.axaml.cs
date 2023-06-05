@@ -20,11 +20,17 @@ public partial class App : Application
         {
             var config = new MapperConfiguration(cfg =>
             {
-                cfg.CreateMap<ClientGetDto, ClientViewModel>();
-                cfg.CreateMap<ClientViewModel, ClientGetDto>();
+                cfg.CreateMap<ClientGetDto, ClientViewModel>().ReverseMap();
+                cfg.CreateMap<ClientPostDto, ClientViewModel>().ReverseMap();
 
-                cfg.CreateMap<ClientPostDto, ClientViewModel>();
-                cfg.CreateMap<ClientViewModel, ClientPostDto>();
+                cfg.CreateMap<HotelGetDto, HotelViewModel>().ReverseMap();
+                cfg.CreateMap<HotelPostDto, HotelViewModel>().ReverseMap();
+
+                cfg.CreateMap<RoomGetDto, RoomViewModel>().ReverseMap();
+                cfg.CreateMap<RoomPostDto, RoomViewModel>().ReverseMap();
+
+                cfg.CreateMap<BookingGetDto, BookingViewModel>().ReverseMap();
+                cfg.CreateMap<BookingPostDto, BookingViewModel>().ReverseMap();
             });
 
             Locator.CurrentMutable.RegisterConstant(new ApiWrapper());
