@@ -15,10 +15,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <OpenApiReference Include="swagger.json" CodeGenerator="NSwagCSharp" Namespace="HotelAppClient" ClassName="ApiClient" />
-  </ItemGroup>
-
-  <ItemGroup>
     <TrimmerRootDescriptor Include="Roots.xml" />
   </ItemGroup>
 
