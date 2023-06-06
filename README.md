@@ -13,6 +13,7 @@
 ![image](https://github.com/lexxamcode/dotnet-2023/assets/82732974/adb3c006-c806-42ba-9eb8-999ca6c9dbbb)
 ![image](https://github.com/lexxamcode/dotnet-2023/assets/82732974/009193eb-f49f-4468-82dc-46fd4f88ce45)
 Редакторы записей:
+
 ![image](https://github.com/lexxamcode/dotnet-2023/assets/82732974/34fbeb3d-7578-4100-baa7-d7d3fd6ce5d4)
 ![image](https://github.com/lexxamcode/dotnet-2023/assets/82732974/679a8294-b4f4-4574-9005-34a7b009ef12)
 ![image](https://github.com/lexxamcode/dotnet-2023/assets/82732974/cd7107bf-640b-4328-9e11-0ce408a356c9)
