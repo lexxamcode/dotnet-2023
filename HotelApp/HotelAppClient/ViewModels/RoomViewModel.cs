@@ -13,6 +13,7 @@ public class RoomViewModel : ViewModelBase
     }
 
     private uint _hotelId;
+    [Required]
     public uint HotelId
     {
         get => _hotelId;

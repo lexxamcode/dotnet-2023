@@ -3,15 +3,16 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 		xmlns:materialIcons="clr-namespace:Material.Icons.Avalonia;assembly=Material.Icons.Avalonia"
-        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+        mc:Ignorable="d" d:DesignWidth="500" d:DesignHeight="500"
         x:Class="HotelAppClient.Views.ClientWindow"
 		xmlns:vm="using:HotelAppClient.ViewModels"
-        Title="Change Client"
+        Title="Client Edit"
 		TransparencyLevelHint="AcrylicBlur"
 		Background="Transparent"
 	    ExtendClientAreaToDecorationsHint="True"
-		MaxWidth="500"
-		MaxHeight="500"
+		Width="500"
+		Height="500"
+		CanResize="False"
 		SizeToContent="WidthAndHeight">
 	
 	<Design.DataContext>
@@ -33,24 +34,29 @@
 			</ExperimentalAcrylicBorder.Material>
 		</ExperimentalAcrylicBorder>
 
-		<Grid Classes="MainGrid" RowDefinitions="Auto, *, *, *, *, *" ColumnDefinitions="Auto, *">
-			<Label Grid.Row="0" Grid.Column="0" VerticalAlignment="Center">First Name</Label>
-			<Label Grid.Row="1" Grid.Column="0" VerticalAlignment="Center">Last Name</Label>
-			<Label Grid.Row="2" Grid.Column="0" VerticalAlignment="Center">Surname</Label>
-			<Label Grid.Row="3" Grid.Column="0" VerticalAlignment="Center">Passport</Label>
-			<Label Grid.Row="4" Grid.Column="0" VerticalAlignment="Center">Birth Date</Label>
+		<Grid Classes="SecondaryGrid" RowDefinitions="Auto, *, *, *, *, *" ColumnDefinitions="Auto, *">
 
-			<TextBox Grid.Row="0" Grid.Column="1" Text="{Binding FirstName}" Foreground="Black"></TextBox>
-			<TextBox Grid.Row="1" Grid.Column="1" Text="{Binding LastName}" Foreground="Black"></TextBox>
-			<TextBox Grid.Row="2" Grid.Column="1" Text="{Binding Surname}" Foreground="Black"></TextBox>
-			<MaskedTextBox Mask="00 00 000000" Grid.Row="3" Grid.Column="1" Text="{Binding Passport}" Foreground="Black"/>
-			<DatePicker Grid.Row="4" Grid.Column="1" SelectedDate="{Binding BirthDate}" Foreground="Black"/>
+			<DataGrid Grid.Row="1" AutoGenerateColumns="False" Background="Gray"
+					  Items="{Binding Hotels}"
+					  SelectedItem="{Binding SelectedHotel}">
+			</DataGrid>
+			<Label Classes="EditLabel" Grid.Row="0" Grid.Column="0">First Name</Label>
+			<Label Classes="EditLabel" Grid.Row="1" Grid.Column="0">Last Name</Label>
+			<Label Classes="EditLabel" Grid.Row="2" Grid.Column="0">Surname</Label>
+			<Label Classes="EditLabel" Grid.Row="3" Grid.Column="0">Passport</Label>
+			<Label Classes="EditLabel" Grid.Row="4" Grid.Column="0">Birth Date</Label>
+
+			<TextBox Margin="10" Grid.Row="0" Grid.Column="1" Text="{Binding FirstName}" Background="#2D2D2D"  Foreground="White" HorizontalAlignment="Stretch"></TextBox>
+			<TextBox Margin="10" Grid.Row="1" Grid.Column="1" Text="{Binding LastName}" Background="#2D2D2D" Foreground="White"  HorizontalAlignment="Stretch"></TextBox>
+			<TextBox Margin="10" Grid.Row="2" Grid.Column="1" Text="{Binding Surname}" Background="#2D2D2D" Foreground="White"  HorizontalAlignment="Stretch"></TextBox>
+			<MaskedTextBox Margin="10" Mask="00 00 000000" Grid.Row="3" Grid.Column="1" Background="#2D2D2D" Foreground="White" Text="{Binding Passport}"  HorizontalAlignment="Stretch"/>
+			<DatePicker Margin="10" Grid.Row="4" Grid.Column="1" SelectedDate="{Binding BirthDate}" Background="#2D2D2D" Foreground="White"  HorizontalAlignment="Stretch"/>
 
 			<StackPanel Grid.Row="5" Grid.Column="1" Grid.ColumnSpan="1"
 							HorizontalAlignment="Right"
 							Orientation="Horizontal">
-				<Button IsCancel="True" Click="CancelButton_OnClick" Content="{materialIcons:MaterialIconExt Kind=Cancel}"/>
-				<Button IsDefault="True" Command="{Binding OnSubmitCommand}" Content="{materialIcons:MaterialIconExt Kind=Check}"/>
+				<Button Classes="Action" IsCancel="True" Click="CancelButton_OnClick" Content="{materialIcons:MaterialIconExt Kind=Cancel}"/>
+				<Button Classes="Action" IsDefault="True" Command="{Binding OnSubmitCommand}" Content="{materialIcons:MaterialIconExt Kind=Check}"/>
 			</StackPanel>
 		</Grid>
 	</Panel>

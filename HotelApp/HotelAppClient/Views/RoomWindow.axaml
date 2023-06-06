@@ -1,0 +1,53 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+		xmlns:materialIcons="clr-namespace:Material.Icons.Avalonia;assembly=Material.Icons.Avalonia"
+        mc:Ignorable="d" d:DesignWidth="290" d:DesignHeight="290"
+        x:Class="HotelAppClient.Views.RoomWindow"
+		xmlns:vm="using:HotelAppClient.ViewModels"
+        Title="Hotel Edit"
+		TransparencyLevelHint="AcrylicBlur"
+		Background="Transparent"
+		Width="290"
+		Height="290"
+	    ExtendClientAreaToDecorationsHint="True"
+		CanResize="False">
+
+	<Design.DataContext>
+		<vm:RoomViewModel/>
+	</Design.DataContext>
+
+	<Window.Styles>
+		<StyleInclude Source="/HotelAppClientStyles.axaml"/>
+	</Window.Styles>
+
+	<Panel>
+		<ExperimentalAcrylicBorder IsHitTestVisible="False">
+			<ExperimentalAcrylicBorder.Material>
+				<ExperimentalAcrylicMaterial
+					BackgroundSource="Digger"
+					TintColor="Black"
+					TintOpacity="1"
+					MaterialOpacity="0.75" />
+			</ExperimentalAcrylicBorder.Material>
+		</ExperimentalAcrylicBorder>
+
+		<Grid Classes="SecondaryGrid" RowDefinitions="Auto, *, *, *" ColumnDefinitions="Auto, *">
+			<Label Classes="EditLabel" Grid.Row="0" Grid.Column="0" VerticalAlignment="Center">Hotel Id</Label>
+			<Label Classes="EditLabel" Grid.Row="1" Grid.Column="0" VerticalAlignment="Center">Type</Label>
+			<Label Classes="EditLabel" Grid.Row="2" Grid.Column="0" VerticalAlignment="Center">Amount</Label>
+
+			<NumericUpDown Margin="10" Grid.Row="0" Grid.Column="1" Text="{Binding HotelId}" HorizontalAlignment="Stretch" Value="0" Background="#2D2D2D" AllowSpin="False" ShowButtonSpinner="False"/>
+			<TextBox Margin="10" Grid.Row="1" Grid.Column="1" Text="{Binding Type}" HorizontalAlignment="Stretch" Background="#2D2D2D"></TextBox>
+			<NumericUpDown Margin="10" Grid.Row="2" Grid.Column="1" Text="{Binding Amount}" Value="10" HorizontalAlignment="Stretch" Background="#2D2D2D"/>
+
+			<StackPanel Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="1"
+							HorizontalAlignment="Right"
+							Orientation="Horizontal">
+				<Button Classes="Action" IsCancel="True" Click="CancelButton_OnClick" Content="{materialIcons:MaterialIconExt Kind=Cancel}"/>
+				<Button Classes="Action" IsDefault="True" Command="{Binding OnSubmitCommand}" Content="{materialIcons:MaterialIconExt Kind=Check}"/>
+			</StackPanel>
+		</Grid>
+	</Panel>
+</Window>

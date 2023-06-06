@@ -1,0 +1,58 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+		xmlns:materialIcons="clr-namespace:Material.Icons.Avalonia;assembly=Material.Icons.Avalonia"
+        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+        x:Class="HotelAppClient.Views.BookingWindow"
+		xmlns:vm="using:HotelAppClient.ViewModels"
+        Title="Hotel Edit"
+		TransparencyLevelHint="AcrylicBlur"
+		Background="Transparent"
+	    ExtendClientAreaToDecorationsHint="True"
+		MaxWidth="800"
+		MaxHeight="450"
+		CanResize="False"
+		SizeToContent="WidthAndHeight">
+
+	<Design.DataContext>
+		<vm:BookingViewModel/>
+	</Design.DataContext>
+
+	<Window.Styles>
+		<StyleInclude Source="/HotelAppClientStyles.axaml"/>
+	</Window.Styles>
+
+	<Panel>
+		<ExperimentalAcrylicBorder IsHitTestVisible="False">
+			<ExperimentalAcrylicBorder.Material>
+				<ExperimentalAcrylicMaterial
+					BackgroundSource="Digger"
+					TintColor="Black"
+					TintOpacity="1"
+					MaterialOpacity="0.75" />
+			</ExperimentalAcrylicBorder.Material>
+		</ExperimentalAcrylicBorder>
+
+		<Grid Classes="SecondaryGrid" RowDefinitions="Auto, *, *, *, *, *" ColumnDefinitions="Auto, *">
+			<Label Classes="EditLabel" Grid.Row="0" Grid.Column="0">Room Id</Label>
+			<Label Classes="EditLabel" Grid.Row="1" Grid.Column="0">Client Id</Label>
+			<Label Classes="EditLabel" Grid.Row="2" Grid.Column="0">Check-in Date</Label>
+			<Label Classes="EditLabel" Grid.Row="3" Grid.Column="0">Booking Period</Label>
+			<Label Classes="EditLabel" Grid.Row="4" Grid.Column="0">Departure Date:</Label>
+
+			<NumericUpDown Grid.Row="0" Grid.Column="1" Margin="10" HorizontalAlignment="Stretch" Text="{Binding RoomId}" Value="0" AllowSpin="False" ShowButtonSpinner="False" Background="#2D2D2D"  Foreground="White"/>
+			<NumericUpDown Grid.Row="1" Grid.Column="1" Margin="10" HorizontalAlignment="Stretch" Text="{Binding ClientId}" Value="0" AllowSpin="False" ShowButtonSpinner="False" Background="#2D2D2D"  Foreground="White"/>
+			<DatePicker Grid.Row="2" Grid.Column="1" Margin="10" HorizontalAlignment="Stretch" SelectedDate="{Binding CheckInDate}" Background="#2D2D2D"  Foreground="White"/>
+			<NumericUpDown Grid.Row="3" Grid.Column="1" Margin="10" HorizontalAlignment="Stretch" Text="{Binding BookingPeriodInDays}" Value="10" Background="#2D2D2D"  Foreground="White"/>
+			<Label Grid.Row="4" Grid.Column="1" Margin="10" HorizontalAlignment="Center" Content="{Binding DepartureDate}" Foreground="White"></Label>
+
+			<StackPanel Grid.Row="5" Grid.Column="1" Grid.ColumnSpan="1"
+							HorizontalAlignment="Right"
+							Orientation="Horizontal">
+				<Button Classes="Action" IsCancel="True" Click="CancelButton_OnClick" Content="{materialIcons:MaterialIconExt Kind=Cancel}"/>
+				<Button Classes="Action" IsDefault="True" Command="{Binding OnSubmitCommand}" Content="{materialIcons:MaterialIconExt Kind=Check}"/>
+			</StackPanel>
+		</Grid>
+	</Panel>
+</Window>

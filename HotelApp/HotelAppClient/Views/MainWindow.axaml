@@ -13,40 +13,139 @@
 	    ExtendClientAreaToDecorationsHint="True">
 
     <Design.DataContext>
-        <!-- This only sets the DataContext for the previewer in an IDE,
-             to set the actual DataContext for runtime, set the DataContext property in code (look at App.axaml.cs) -->
         <vm:MainWindowViewModel/>
     </Design.DataContext>    
     
 	<Window.Styles>
 		<StyleInclude Source="/HotelAppClientStyles.axaml"/>
 	</Window.Styles>
-	<Border Background="Transparent" Margin="0">
-    <Grid Classes="MainGrid" RowDefinitions="Auto, *">  
-        <ExperimentalAcrylicBorder IsHitTestVisible="False">
-            <ExperimentalAcrylicBorder.Material>
-                <ExperimentalAcrylicMaterial BackgroundSource="Digger" TintOpacity="0,5" TintColor="Black" MaterialOpacity="0.85"/>
-            </ExperimentalAcrylicBorder.Material>
-        </ExperimentalAcrylicBorder>
-		
-	    <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="8">
-			<Button Command="{Binding OnAddClientCommand}" Content="{materialIcons:MaterialIconExt Kind=AccountPlus}"/>
-			<Button Command="{Binding OnChangeClientCommand}" Content="{materialIcons:MaterialIconExt Kind=AccountWrench}"/>
-			<Button Command="{Binding OnDeleteClientCommand}" Content="{materialIcons:MaterialIconExt Kind=AccountMinus}"/>
-	    </StackPanel>
-		
-	    <DataGrid Grid.Row="1" AutoGenerateColumns="False" Background="Transparent"
-				  Items="{Binding Clients}"
-				  SelectedItem="{Binding SelectedClient}">
-			<DataGrid.Columns>
-				<DataGridTextColumn Header="Id" Binding="{Binding Id}"/>
-				<DataGridTextColumn Header="First Name" Binding="{Binding FirstName}"/>
-				<DataGridTextColumn Header="Last Name" Binding="{Binding LastName}"/>
-				<DataGridTextColumn Header="Surnname" Binding="{Binding Surname}"/>
-				<DataGridTextColumn Header="Passport" Binding="{Binding Passport}"/>
-				<DataGridTextColumn Header="Birth date" Binding="{Binding BirthDate}"/>
-			</DataGrid.Columns>
-		</DataGrid>
-    </Grid>
+	<Border Margin="20">
+		<TabControl Background="Transparent">
+			<TabItem Header="Hotels" VerticalContentAlignment="Center" Background="Transparent">
+				<Grid Classes="MainGrid" RowDefinitions="Auto, *">
+					<ExperimentalAcrylicBorder IsHitTestVisible="False">
+						<ExperimentalAcrylicBorder.Material>
+							<ExperimentalAcrylicMaterial
+								BackgroundSource="Digger"
+								TintColor="Black"
+								TintOpacity="1"
+								MaterialOpacity="0.65" />
+						</ExperimentalAcrylicBorder.Material>
+					</ExperimentalAcrylicBorder>
+
+					<StackPanel Grid.Row="0" Orientation="Horizontal" Margin="8" Background="Transparent">
+						<Button Classes="Action" Command="{Binding OnAddHotelCommand}" Content="{materialIcons:MaterialIconExt Kind=DomainPlus}"/>
+						<Button Classes="Action" Command="{Binding OnChangeHotelCommand}" Content="{materialIcons:MaterialIconExt Kind=HomeEdit}"/>
+						<Button Classes="Action" Command="{Binding OnDeleteHotelCommand}" Content="{materialIcons:MaterialIconExt Kind=DomainRemove}"/>
+					</StackPanel>
+
+					<DataGrid Classes="List" Grid.Row="1"
+							  Items="{Binding Hotels}"
+							  SelectedItem="{Binding SelectedHotel}">
+						<DataGrid.Columns>
+							<DataGridTextColumn Header="Id" Binding="{Binding Id}"/>
+							<DataGridTextColumn Header="Name" Binding="{Binding Name}"/>
+							<DataGridTextColumn Header="City" Binding="{Binding City}"/>
+							<DataGridTextColumn Header="Address" Binding="{Binding Address}"/>
+						</DataGrid.Columns>
+					</DataGrid>
+				</Grid>
+			</TabItem>
+			<TabItem Header="Rooms" VerticalContentAlignment="Center" Background="Transparent">
+				<Grid Classes="MainGrid" RowDefinitions="Auto, *">
+					<ExperimentalAcrylicBorder IsHitTestVisible="False">
+						<ExperimentalAcrylicBorder.Material>
+							<ExperimentalAcrylicMaterial
+								BackgroundSource="Digger"
+								TintColor="Black"
+								TintOpacity="1"
+								MaterialOpacity="0.65" />
+						</ExperimentalAcrylicBorder.Material>
+					</ExperimentalAcrylicBorder>
+
+					<StackPanel Grid.Row="0" Orientation="Horizontal" Margin="8" Background="Transparent">
+						<Button Classes="Action" Command="{Binding OnAddRoomCommand}" Content="{materialIcons:MaterialIconExt Kind=PlusBox}"/>
+						<Button Classes="Action" Command="{Binding OnChangeRoomCommand}" Content="{materialIcons:MaterialIconExt Kind=Pencil}"/>
+						<Button Classes="Action" Command="{Binding OnDeleteRoomCommand}" Content="{materialIcons:MaterialIconExt Kind=MinusBox}"/>
+					</StackPanel>
+
+					<DataGrid Classes="List" Grid.Row="1"
+							  Items="{Binding Rooms}"
+							  SelectedItem="{Binding SelectedRoom}">
+						<DataGrid.Columns>
+							<DataGridTextColumn Header="Id" Binding="{Binding Id}"/>
+							<DataGridTextColumn Header="Type" Binding="{Binding Type}"/>
+							<DataGridTextColumn Header="Amount" Binding="{Binding Amount}"/>
+						</DataGrid.Columns>
+					</DataGrid>
+				</Grid>
+			</TabItem>
+			<TabItem Header="Bookings" VerticalContentAlignment="Center" Background="Transparent">
+				<Grid Classes="MainGrid" RowDefinitions="Auto, *">
+					<ExperimentalAcrylicBorder IsHitTestVisible="False">
+						<ExperimentalAcrylicBorder.Material>
+							<ExperimentalAcrylicMaterial
+								BackgroundSource="Digger"
+								TintColor="Black"
+								TintOpacity="1"
+								MaterialOpacity="0.65" />
+						</ExperimentalAcrylicBorder.Material>
+					</ExperimentalAcrylicBorder>
+					
+					<StackPanel Grid.Row="0" Orientation="Horizontal" Margin="8" Background="Transparent">
+						
+						<Button Classes="Action" Command="{Binding OnAddBookingCommand}" Content="{materialIcons:MaterialIconExt Kind=KeyPlus}"/>
+						<Button Classes="Action" Command="{Binding OnChangeBookingCommand}" Content="{materialIcons:MaterialIconExt Kind=Pencil}"/>
+						<Button Classes="Action" Command="{Binding OnDeleteBookingCommand}" Content="{materialIcons:MaterialIconExt Kind=KeyRemove}"/>
+					</StackPanel>
+
+					<DataGrid Classes="List" Grid.Row="1"
+							  Items="{Binding Bookings}"
+							  SelectedItem="{Binding SelectedBooking}">
+						<DataGrid.Columns>
+							<DataGridTextColumn Header="Id" Binding="{Binding Id}"/>
+							<DataGridTextColumn Header="Room Id" Binding="{Binding RoomId}"/>
+							<DataGridTextColumn Header="Client Id" Binding="{Binding ClientId}"/>
+							<DataGridTextColumn Header="Check-in Date" Binding="{Binding CheckInDate}"/>
+							<DataGridTextColumn Header="Period (days)" Binding="{Binding BookingPeriodInDays}"/>
+							<DataGridTextColumn Header="Leave Date" Binding="{Binding DepartureDate}"/>
+						</DataGrid.Columns>
+					</DataGrid>
+				</Grid>
+			</TabItem>
+
+			<TabItem Header="Clients" VerticalContentAlignment="Center" Background="Transparent">
+				<Grid Classes="MainGrid" RowDefinitions="Auto, *">
+					<ExperimentalAcrylicBorder IsHitTestVisible="False">
+						<ExperimentalAcrylicBorder.Material>
+							<ExperimentalAcrylicMaterial
+								BackgroundSource="Digger"
+								TintColor="Black"
+								TintOpacity="1"
+								MaterialOpacity="0.65" />
+						</ExperimentalAcrylicBorder.Material>
+					</ExperimentalAcrylicBorder>
+
+					<StackPanel Grid.Row="0" Orientation="Horizontal" Margin="8" Background="Transparent">
+						<Button Classes="Action" Command="{Binding OnAddClientCommand}" Content="{materialIcons:MaterialIconExt Kind=AccountPlus}"/>
+						<Button Classes="Action" Command="{Binding OnChangeClientCommand}" Content="{materialIcons:MaterialIconExt Kind=AccountWrench}"/>
+						<Button Classes="Action" Command="{Binding OnDeleteClientCommand}" Content="{materialIcons:MaterialIconExt Kind=AccountMinus}"/>
+					</StackPanel>
+
+					<DataGrid Classes="List" Grid.Row="1"
+							  Items="{Binding Clients}"
+							  SelectedItem="{Binding SelectedClient}">
+						<DataGrid.Columns>
+							<DataGridTextColumn Header="Id" Binding="{Binding Id}"/>
+							<DataGridTextColumn Header="First Name" Binding="{Binding FirstName}"/>
+							<DataGridTextColumn Header="Last Name" Binding="{Binding LastName}"/>
+							<DataGridTextColumn Header="Surnname" Binding="{Binding Surname}"/>
+							<DataGridTextColumn Header="Passport" Binding="{Binding Passport}"/>
+							<DataGridTextColumn Header="Birth date" Binding="{Binding BirthDate}"/>
+						</DataGrid.Columns>
+					</DataGrid>
+				</Grid>
+			</TabItem>
+		</TabControl>
 	</Border>
 </Window>

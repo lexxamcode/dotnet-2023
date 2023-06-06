@@ -12,7 +12,7 @@ public class HotelViewModel : ViewModelBase
         set => this.RaiseAndSetIfChanged(ref _id, value);
     }
 
-    private string _name = null!;
+    private string _name = string.Empty;
     [Required]
     public string Name
     {
@@ -20,7 +20,7 @@ public class HotelViewModel : ViewModelBase
         set => this.RaiseAndSetIfChanged(ref _name, value);
     }
 
-    private string _city = null!;
+    private string _city = string.Empty;
     [Required]
     public string City
     {
@@ -28,7 +28,7 @@ public class HotelViewModel : ViewModelBase
         set => this.RaiseAndSetIfChanged(ref _city, value);
     }
 
-    private string _address = null!;
+    private string _address = string.Empty;
     [Required]
     public string Address
     {
