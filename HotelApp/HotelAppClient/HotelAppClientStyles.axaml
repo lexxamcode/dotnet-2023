@@ -39,6 +39,14 @@
 		<Setter Property="BorderBrush" Value="Black"/>
 	</Style>
 
+	<Style Selector="Button.Action">
+		<Setter Property="Margin" Value="10"/>
+		<Setter Property="Height" Value="40"/>
+		<Setter Property="Width" Value="40"/>
+		<Setter Property="Background" Value="#4d4d4d"/>
+		<Setter Property="BorderBrush" Value="Black"/>
+	</Style>
+
 	<Style Selector="Label.EditLabel">
 		<Setter Property="Margin" Value="10"/>
 		<Setter Property="HorizontalAlignment" Value="Left"/>

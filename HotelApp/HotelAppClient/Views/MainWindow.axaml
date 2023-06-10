@@ -14,13 +14,26 @@
 
     <Design.DataContext>
         <vm:MainWindowViewModel/>
-    </Design.DataContext>    
-    
+    </Design.DataContext>
+
+	<Window.Resources>
+		<SolidColorBrush x:Key="clBr" Color="White"/>
+	</Window.Resources>
+	
 	<Window.Styles>
 		<StyleInclude Source="/HotelAppClientStyles.axaml"/>
 	</Window.Styles>
-	<Border Margin="20">
-		<TabControl Background="Transparent">
+	<Panel>
+		<ExperimentalAcrylicBorder IsHitTestVisible="False">
+			<ExperimentalAcrylicBorder.Material>
+				<ExperimentalAcrylicMaterial
+					BackgroundSource="Digger"
+					TintColor="Black"
+					TintOpacity="1"
+					MaterialOpacity="0.75" />
+			</ExperimentalAcrylicBorder.Material>
+		</ExperimentalAcrylicBorder>
+		<TabControl Background="Transparent" Margin="30">
 			<TabItem Header="Hotels" VerticalContentAlignment="Center" Background="Transparent">
 				<Grid Classes="MainGrid" RowDefinitions="Auto, *">
 					<ExperimentalAcrylicBorder IsHitTestVisible="False">
@@ -147,5 +160,5 @@
 				</Grid>
 			</TabItem>
 		</TabControl>
-	</Border>
+	</Panel>
 </Window>
